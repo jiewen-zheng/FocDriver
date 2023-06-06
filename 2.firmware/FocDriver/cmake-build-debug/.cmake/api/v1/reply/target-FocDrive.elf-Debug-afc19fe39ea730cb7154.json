@@ -93,7 +93,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-fdiagnostics-color=always"
+					"fragment" : "-g -fdiagnostics-color=always"
 				},
 				{
 					"backtrace" : 5,
@@ -154,27 +154,27 @@
 			[
 				{
 					"backtrace" : 10,
-					"path" : "D:/items/FocDrive/Core/Inc"
+					"path" : "D:/items/jb/FocDriver/2.firmware/FocDriver/Core/Inc"
 				},
 				{
 					"backtrace" : 10,
-					"path" : "D:/items/FocDrive/Drivers/STM32F4xx_HAL_Driver/Inc"
+					"path" : "D:/items/jb/FocDriver/2.firmware/FocDriver/Drivers/STM32F4xx_HAL_Driver/Inc"
 				},
 				{
 					"backtrace" : 10,
-					"path" : "D:/items/FocDrive/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"
+					"path" : "D:/items/jb/FocDriver/2.firmware/FocDriver/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"
 				},
 				{
 					"backtrace" : 10,
-					"path" : "D:/items/FocDrive/Drivers/CMSIS/Device/ST/STM32F4xx/Include"
+					"path" : "D:/items/jb/FocDriver/2.firmware/FocDriver/Drivers/CMSIS/Device/ST/STM32F4xx/Include"
 				},
 				{
 					"backtrace" : 10,
-					"path" : "D:/items/FocDrive/Drivers/CMSIS/Include"
+					"path" : "D:/items/jb/FocDriver/2.firmware/FocDriver/Drivers/CMSIS/Include"
 				},
 				{
 					"backtrace" : 10,
-					"path" : "D:/items/FocDrive/FocDrive"
+					"path" : "D:/items/jb/FocDriver/2.firmware/FocDriver/FocDrive"
 				}
 			],
 			"language" : "C",
@@ -217,6 +217,9 @@
 		{
 			"compileCommandFragments" : 
 			[
+				{
+					"fragment" : "-g"
+				},
 				{
 					"backtrace" : 5,
 					"fragment" : "-mcpu=cortex-m4"
@@ -281,27 +284,27 @@
 			[
 				{
 					"backtrace" : 10,
-					"path" : "D:/items/FocDrive/Core/Inc"
+					"path" : "D:/items/jb/FocDriver/2.firmware/FocDriver/Core/Inc"
 				},
 				{
 					"backtrace" : 10,
-					"path" : "D:/items/FocDrive/Drivers/STM32F4xx_HAL_Driver/Inc"
+					"path" : "D:/items/jb/FocDriver/2.firmware/FocDriver/Drivers/STM32F4xx_HAL_Driver/Inc"
 				},
 				{
 					"backtrace" : 10,
-					"path" : "D:/items/FocDrive/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"
+					"path" : "D:/items/jb/FocDriver/2.firmware/FocDriver/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"
 				},
 				{
 					"backtrace" : 10,
-					"path" : "D:/items/FocDrive/Drivers/CMSIS/Device/ST/STM32F4xx/Include"
+					"path" : "D:/items/jb/FocDriver/2.firmware/FocDriver/Drivers/CMSIS/Device/ST/STM32F4xx/Include"
 				},
 				{
 					"backtrace" : 10,
-					"path" : "D:/items/FocDrive/Drivers/CMSIS/Include"
+					"path" : "D:/items/jb/FocDriver/2.firmware/FocDriver/Drivers/CMSIS/Include"
 				},
 				{
 					"backtrace" : 10,
-					"path" : "D:/items/FocDrive/FocDrive"
+					"path" : "D:/items/jb/FocDriver/2.firmware/FocDriver/FocDrive"
 				}
 			],
 			"language" : "ASM",
@@ -314,7 +317,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-fdiagnostics-color=always"
+					"fragment" : "-g -fdiagnostics-color=always"
 				},
 				{
 					"backtrace" : 5,
@@ -375,27 +378,27 @@
 			[
 				{
 					"backtrace" : 10,
-					"path" : "D:/items/FocDrive/Core/Inc"
+					"path" : "D:/items/jb/FocDriver/2.firmware/FocDriver/Core/Inc"
 				},
 				{
 					"backtrace" : 10,
-					"path" : "D:/items/FocDrive/Drivers/STM32F4xx_HAL_Driver/Inc"
+					"path" : "D:/items/jb/FocDriver/2.firmware/FocDriver/Drivers/STM32F4xx_HAL_Driver/Inc"
 				},
 				{
 					"backtrace" : 10,
-					"path" : "D:/items/FocDrive/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"
+					"path" : "D:/items/jb/FocDriver/2.firmware/FocDriver/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"
 				},
 				{
 					"backtrace" : 10,
-					"path" : "D:/items/FocDrive/Drivers/CMSIS/Device/ST/STM32F4xx/Include"
+					"path" : "D:/items/jb/FocDriver/2.firmware/FocDriver/Drivers/CMSIS/Device/ST/STM32F4xx/Include"
 				},
 				{
 					"backtrace" : 10,
-					"path" : "D:/items/FocDrive/Drivers/CMSIS/Include"
+					"path" : "D:/items/jb/FocDriver/2.firmware/FocDriver/Drivers/CMSIS/Include"
 				},
 				{
 					"backtrace" : 10,
-					"path" : "D:/items/FocDrive/FocDrive"
+					"path" : "D:/items/jb/FocDriver/2.firmware/FocDriver/FocDrive"
 				}
 			],
 			"language" : "CXX",
@@ -427,12 +430,16 @@
 		"commandFragments" : 
 		[
 			{
+				"fragment" : "-g",
+				"role" : "flags"
+			},
+			{
 				"fragment" : "",
 				"role" : "flags"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "-Wl,-gc-sections,--print-memory-usage,-Map=D:/items/FocDrive/cmake-build-debug/FocDrive.map",
+				"fragment" : "-Wl,-gc-sections,--print-memory-usage,-Map=D:/items/jb/FocDriver/2.firmware/FocDriver/cmake-build-debug/FocDrive.map",
 				"role" : "flags"
 			},
 			{
@@ -457,7 +464,7 @@
 			},
 			{
 				"backtrace" : 4,
-				"fragment" : "D:/items/FocDrive/STM32F405RGTX_FLASH.ld",
+				"fragment" : "D:/items/jb/FocDriver/2.firmware/FocDriver/STM32F405RGTX_FLASH.ld",
 				"role" : "flags"
 			}
 		],

@@ -7,7 +7,7 @@
 			{
 				"id" : "GNU",
 				"implicit" : {},
-				"path" : "D:/SDK/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc.exe",
+				"path" : "D:/software/SysGCC/arm-eabi/bin/arm-none-eabi-gcc.exe",
 				"version" : ""
 			},
 			"language" : "ASM",
@@ -26,15 +26,15 @@
 				{
 					"includeDirectories" : 
 					[
-						"D:/SDK/gcc-arm-none-eabi-10.3-2021.10/lib/gcc/arm-none-eabi/10.3.1/include",
-						"D:/SDK/gcc-arm-none-eabi-10.3-2021.10/lib/gcc/arm-none-eabi/10.3.1/include-fixed",
-						"D:/SDK/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include"
+						"D:/software/SysGCC/arm-eabi/lib/gcc/arm-none-eabi/10.3.1/include",
+						"D:/software/SysGCC/arm-eabi/lib/gcc/arm-none-eabi/10.3.1/include-fixed",
+						"D:/software/SysGCC/arm-eabi/arm-none-eabi/include"
 					],
 					"linkDirectories" : [],
 					"linkFrameworkDirectories" : [],
 					"linkLibraries" : []
 				},
-				"path" : "D:/SDK/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc.exe",
+				"path" : "D:/software/SysGCC/arm-eabi/bin/arm-none-eabi-gcc.exe",
 				"version" : "10.3.1"
 			},
 			"language" : "C",
@@ -52,18 +52,18 @@
 				{
 					"includeDirectories" : 
 					[
-						"D:/SDK/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/c++/10.3.1",
-						"D:/SDK/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/c++/10.3.1/arm-none-eabi",
-						"D:/SDK/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include/c++/10.3.1/backward",
-						"D:/SDK/gcc-arm-none-eabi-10.3-2021.10/lib/gcc/arm-none-eabi/10.3.1/include",
-						"D:/SDK/gcc-arm-none-eabi-10.3-2021.10/lib/gcc/arm-none-eabi/10.3.1/include-fixed",
-						"D:/SDK/gcc-arm-none-eabi-10.3-2021.10/arm-none-eabi/include"
+						"D:/software/SysGCC/arm-eabi/arm-none-eabi/include/c++/10.3.1",
+						"D:/software/SysGCC/arm-eabi/arm-none-eabi/include/c++/10.3.1/arm-none-eabi",
+						"D:/software/SysGCC/arm-eabi/arm-none-eabi/include/c++/10.3.1/backward",
+						"D:/software/SysGCC/arm-eabi/lib/gcc/arm-none-eabi/10.3.1/include",
+						"D:/software/SysGCC/arm-eabi/lib/gcc/arm-none-eabi/10.3.1/include-fixed",
+						"D:/software/SysGCC/arm-eabi/arm-none-eabi/include"
 					],
 					"linkDirectories" : [],
 					"linkFrameworkDirectories" : [],
 					"linkLibraries" : []
 				},
-				"path" : "D:/SDK/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-g++.exe",
+				"path" : "D:/software/SysGCC/arm-eabi/bin/arm-none-eabi-g++.exe",
 				"version" : "10.3.1"
 			},
 			"language" : "CXX",

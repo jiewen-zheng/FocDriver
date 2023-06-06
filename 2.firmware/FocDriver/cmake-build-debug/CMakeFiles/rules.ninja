@@ -17,7 +17,7 @@
 rule ASM_COMPILER__FocDrive.2eelf_Debug
   depfile = $DEP_FILE
   deps = gcc
-  command = D:\SDK\gcc-arm-none-eabi-10.3-2021.10\bin\arm-none-eabi-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  command = D:\software\SysGCC\arm-eabi\bin\arm-none-eabi-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
   description = Building ASM object $out
 
 
@@ -27,7 +27,7 @@ rule ASM_COMPILER__FocDrive.2eelf_Debug
 rule C_COMPILER__FocDrive.2eelf_Debug
   depfile = $DEP_FILE
   deps = gcc
-  command = D:\SDK\gcc-arm-none-eabi-10.3-2021.10\bin\arm-none-eabi-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  command = D:\software\SysGCC\arm-eabi\bin\arm-none-eabi-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
   description = Building C object $out
 
 
@@ -37,7 +37,7 @@ rule C_COMPILER__FocDrive.2eelf_Debug
 rule CXX_COMPILER__FocDrive.2eelf_Debug
   depfile = $DEP_FILE
   deps = gcc
-  command = D:\SDK\gcc-arm-none-eabi-10.3-2021.10\bin\arm-none-eabi-g++.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  command = D:\software\SysGCC\arm-eabi\bin\arm-none-eabi-g++.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
   description = Building CXX object $out
 
 
@@ -45,7 +45,7 @@ rule CXX_COMPILER__FocDrive.2eelf_Debug
 # Rule for linking CXX executable.
 
 rule CXX_EXECUTABLE_LINKER__FocDrive.2eelf_Debug
-  command = cmd.exe /C "$PRE_LINK && D:\SDK\gcc-arm-none-eabi-10.3-2021.10\bin\arm-none-eabi-g++.exe $FLAGS $LINK_FLAGS $in -o $TARGET_FILE $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
+  command = cmd.exe /C "$PRE_LINK && D:\software\SysGCC\arm-eabi\bin\arm-none-eabi-g++.exe $FLAGS $LINK_FLAGS $in -o $TARGET_FILE $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX executable $TARGET_FILE
   restat = $RESTAT
 
@@ -62,7 +62,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = "D:\software\JetBrains\CLion 2023.1.3\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SD:\items\FocDrive -BD:\items\FocDrive\cmake-build-debug
+  command = "D:\software\JetBrains\CLion 2023.1.3\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SD:\items\jb\FocDriver\2.firmware\FocDriver -BD:\items\jb\FocDriver\2.firmware\FocDriver\cmake-build-debug
   description = Re-running CMake...
   generator = 1
 

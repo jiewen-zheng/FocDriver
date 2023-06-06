@@ -159,8 +159,8 @@ private:
     float angleOpenloop(float target_angle);
 
 private:
-
     bool _enable = false;   //!< enabled or disabled motor flag
+
     MotorStatus_t status = MotorStatus_t::UNINITIALIZED;
     float phase_resistance = NOT_SET; //!< motor phase resistance
     float phase_inductance = NOT_SET; //!< motor phase inductance

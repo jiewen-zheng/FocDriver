@@ -15,7 +15,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/software/JetBrains/CLion 2023.1.3/bin/mingw/bin/addr2line.exe"
+			"value" : "D:/software/SysGCC/arm-eabi/bin/arm-none-eabi-addr2line.exe"
 		},
 		{
 			"name" : "CMAKE_ASM_COMPILER_AR",
@@ -31,7 +31,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/SDK/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc-ar.exe"
+			"value" : "D:/software/SysGCC/arm-eabi/bin/arm-none-eabi-gcc-ar.exe"
 		},
 		{
 			"name" : "CMAKE_ASM_COMPILER_RANLIB",
@@ -47,7 +47,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/SDK/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc-ranlib.exe"
+			"value" : "D:/software/SysGCC/arm-eabi/bin/arm-none-eabi-gcc-ranlib.exe"
 		},
 		{
 			"name" : "CMAKE_ASM_COMPILER_WORKS",
@@ -91,7 +91,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : ""
+			"value" : "-g"
 		},
 		{
 			"name" : "CMAKE_ASM_FLAGS_MINSIZEREL",
@@ -107,7 +107,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : ""
+			"value" : "-Os -DNDEBUG"
 		},
 		{
 			"name" : "CMAKE_ASM_FLAGS_RELEASE",
@@ -123,7 +123,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : ""
+			"value" : "-O3 -DNDEBUG"
 		},
 		{
 			"name" : "CMAKE_ASM_FLAGS_RELWITHDEBINFO",
@@ -139,7 +139,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : ""
+			"value" : "-O2 -g -DNDEBUG"
 		},
 		{
 			"name" : "CMAKE_BUILD_TYPE",
@@ -163,7 +163,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "d:/items/FocDrive/cmake-build-debug"
+			"value" : "d:/items/jb/FocDriver/2.firmware/FocDriver/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -263,7 +263,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/SDK/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc-ar.exe"
+			"value" : "D:/software/SysGCC/arm-eabi/bin/arm-none-eabi-gcc-ar.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER_RANLIB",
@@ -279,7 +279,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/SDK/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc-ranlib.exe"
+			"value" : "D:/software/SysGCC/arm-eabi/bin/arm-none-eabi-gcc-ranlib.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_FLAGS",
@@ -311,7 +311,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : ""
+			"value" : "-g"
 		},
 		{
 			"name" : "CMAKE_CXX_FLAGS_MINSIZEREL",
@@ -327,7 +327,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : ""
+			"value" : "-Os -DNDEBUG"
 		},
 		{
 			"name" : "CMAKE_CXX_FLAGS_RELEASE",
@@ -343,7 +343,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : ""
+			"value" : "-O3 -DNDEBUG"
 		},
 		{
 			"name" : "CMAKE_CXX_FLAGS_RELWITHDEBINFO",
@@ -359,7 +359,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : ""
+			"value" : "-O2 -g -DNDEBUG"
 		},
 		{
 			"name" : "CMAKE_C_COMPILER_AR",
@@ -375,7 +375,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/SDK/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc-ar.exe"
+			"value" : "D:/software/SysGCC/arm-eabi/bin/arm-none-eabi-gcc-ar.exe"
 		},
 		{
 			"name" : "CMAKE_C_COMPILER_RANLIB",
@@ -391,7 +391,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/SDK/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc-ranlib.exe"
+			"value" : "D:/software/SysGCC/arm-eabi/bin/arm-none-eabi-gcc-ranlib.exe"
 		},
 		{
 			"name" : "CMAKE_C_FLAGS",
@@ -423,7 +423,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : ""
+			"value" : "-g"
 		},
 		{
 			"name" : "CMAKE_C_FLAGS_MINSIZEREL",
@@ -439,7 +439,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : ""
+			"value" : "-Os -DNDEBUG"
 		},
 		{
 			"name" : "CMAKE_C_FLAGS_RELEASE",
@@ -455,7 +455,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : ""
+			"value" : "-O3 -DNDEBUG"
 		},
 		{
 			"name" : "CMAKE_C_FLAGS_RELWITHDEBINFO",
@@ -471,7 +471,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : ""
+			"value" : "-O2 -g -DNDEBUG"
 		},
 		{
 			"name" : "CMAKE_DLLTOOL",
@@ -499,7 +499,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "Unknown"
+			"value" : "ELF"
 		},
 		{
 			"name" : "CMAKE_EXE_LINKER_FLAGS",
@@ -619,7 +619,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "D:/items/FocDrive/cmake-build-debug/CMakeFiles/pkgRedirects"
+			"value" : "D:/items/jb/FocDriver/2.firmware/FocDriver/cmake-build-debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -679,7 +679,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "D:/items/FocDrive"
+			"value" : "D:/items/jb/FocDriver/2.firmware/FocDriver"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -707,7 +707,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/software/JetBrains/CLion 2023.1.3/bin/mingw/bin/ld.exe"
+			"value" : "D:/software/SysGCC/arm-eabi/bin/arm-none-eabi-ld.exe"
 		},
 		{
 			"name" : "CMAKE_MAKE_PROGRAM",
@@ -815,7 +815,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/software/JetBrains/CLion 2023.1.3/bin/mingw/bin/nm.exe"
+			"value" : "D:/software/SysGCC/arm-eabi/bin/arm-none-eabi-nm.exe"
 		},
 		{
 			"name" : "CMAKE_NUMBER_OF_MAKEFILES",
@@ -891,7 +891,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/software/JetBrains/CLion 2023.1.3/bin/mingw/bin/ranlib.exe"
+			"value" : "D:/software/SysGCC/arm-eabi/bin/arm-none-eabi-ranlib.exe"
 		},
 		{
 			"name" : "CMAKE_READELF",
@@ -907,7 +907,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/software/JetBrains/CLion 2023.1.3/bin/mingw/bin/readelf.exe"
+			"value" : "D:/software/SysGCC/arm-eabi/bin/arm-none-eabi-readelf.exe"
 		},
 		{
 			"name" : "CMAKE_ROOT",
@@ -1127,7 +1127,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "D:/software/JetBrains/CLion 2023.1.3/bin/mingw/bin/strip.exe"
+			"value" : "D:/software/SysGCC/arm-eabi/bin/arm-none-eabi-strip.exe"
 		},
 		{
 			"name" : "CMAKE_VERBOSE_MAKEFILE",
@@ -1155,7 +1155,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "D:/items/FocDrive/cmake-build-debug"
+			"value" : "D:/items/jb/FocDriver/2.firmware/FocDriver/cmake-build-debug"
 		},
 		{
 			"name" : "FocDrive_IS_TOP_LEVEL",
@@ -1179,7 +1179,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "D:/items/FocDrive"
+			"value" : "D:/items/jb/FocDriver/2.firmware/FocDriver"
 		}
 	],
 	"kind" : "cache",
