@@ -5,6 +5,10 @@
 #include "time_utils.h"
 #include "stm32f4xx_hal.h"
 
+/**
+ * delay function
+ * @param ms - delay millisecond
+ */
 void _delay(unsigned long ms) {
     HAL_Delay(ms);
 }

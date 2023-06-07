@@ -1,4 +1,4 @@
-# Install script for directory: D:/items/jb/FocDriver/2.firmware/FocDriver
+# Install script for directory: D:/items/FocDriver-main/2.firmware/FocDriver
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "D:/items/jb/FocDriver/2.firmware/FocDriver/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "D:/items/FocDriver-main/2.firmware/FocDriver/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

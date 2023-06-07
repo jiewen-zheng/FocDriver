@@ -13,7 +13,19 @@
  * @return
  */
 bool Motor::init(float zero_electric_offset, EncoderBase::Direction sensor_dir) {
-    if (driver)driver->init();
+    if (!driver) {
+        status = MotorStatus_t::INIT_FAILED;
+        DRIVE_LOG("MOT: No driver.");
+        return false;
+    }
+
+    status = MotorStatus_t::INITIALIZING;
+
+    if (!driver->init()) {
+        status = MotorStatus_t::INIT_FAILED;
+        DRIVE_LOG("MOT: Init driver failed.");
+        return false;
+    }
     if (encoder)encoder->init();
     if (currentSense)currentSense->init();
 
@@ -43,7 +55,7 @@ bool Motor::init(float zero_electric_offset, EncoderBase::Direction sensor_dir) 
     }
     pid_angle._limit = velocity_limit;
 
-    DRIVE_LOG("MOT: Enable driver.");
+    DRIVE_LOG("MOT: Enable FOC driver.");
     status = MotorStatus_t::UNCALIBRATED;
     return initFOC(zero_electric_offset, sensor_dir);
 }
@@ -83,7 +95,9 @@ void Motor::linkCurrentSense(CurrentSenseBase *_current_sense) {
  * @return
  */
 int Motor::initFOC(float zero_electric_offset, EncoderBase::Direction sensor_dir) {
-    int exit_flag = 0;
+    int exit_flag = 1; // success
+
+    status = MotorStatus_t::CALIBRATING;
 
     // align motor if necessary
     if (_isset(zero_electric_offset)) {
@@ -92,7 +106,7 @@ int Motor::initFOC(float zero_electric_offset, EncoderBase::Direction sensor_dir
     }
 
     // sensor and motor alignment - can be skipped
-    // by setting motor.sensor_direction and motor.zero_electric_angle
+    // by setting encoder->direction and motor.zero_electric_angle
     if (encoder) {
         exit_flag = alignSensor();
 
@@ -105,6 +119,7 @@ int Motor::initFOC(float zero_electric_offset, EncoderBase::Direction sensor_dir
     // aligning the current sensor - can be skipped
     if (currentSense) {
         if (!currentSense->initialized) {
+            exit_flag = 0;
             DRIVE_LOG("MOT: Align failed, Current not initialized.");
         } else {
             exit_flag = currentSense->driverAlign(voltage_sensor_align);
@@ -117,7 +132,7 @@ int Motor::initFOC(float zero_electric_offset, EncoderBase::Direction sensor_dir
         DRIVE_LOG("MOT: Ready.");
         status = MotorStatus_t::READY;
     } else {
-        DRIVE_LOG("MOT: FOC init failed.");
+        DRIVE_LOG("MOT: Init FOC failed.");
         status = MotorStatus_t::CALIB_FILED;
     }
 
@@ -204,12 +219,23 @@ void Motor::loopFOC() {
  */
 void Motor::move(float new_target) {
 
+    // read value even if motor is disabled to keep the monitoring updated but not in openloop mode
+    if (controller_mode != ControlMode_t::ANGLE_OPEN_LOOP &&
+        controller_mode != ControlMode_t::VELOCITY_OPEN_LOOP) {
+        shaft_angle = shaftAngle();
+    }
+    // read value even if motor is disabled to keep the monitoring updated
+    shaft_velocity = shaftVelocity();
 
     // if disabled do nothing
     if (!_enable) return;
 
     // set internal target variable
     if (_isset(new_target)) target = new_target;
+
+    if (!currentSense && _isset(phase_resistance)) {
+        current.q = voltage.q / phase_resistance;
+    }
 
     switch (controller_mode) {
         case ControlMode_t::TORQUE:
@@ -339,8 +365,85 @@ void Motor::setPhaseVoltage(float Uq, float Ud, float angle_el) {
     driver->setPwm(Ua, Ub, Uc);
 }
 
+/**
+ * Sensor alignment to electrical 0 angle of the motor
+ * @return
+ */
 int Motor::alignSensor() {
-    return 0;
+    int exit_flag = 1; // success
+    DRIVE_LOG("MOT: Align encoder");
+
+    // if unknown natural direction
+    if (encoder->direction == EncoderBase::Direction::UNKNOWN) {
+        // find natural direction
+        for (int i = 0; i <= 500; i++) {
+            float angle = _3PI_2 + _2PI * (float) i / 500.0f;
+            setPhaseVoltage(voltage_sensor_align, 0, angle);
+//            encoder->update();
+            _delay(2);
+        }
+        // take and angle in the middle
+        encoder->update();
+        float mid_angle = encoder->getFullAngle();
+
+        // move one electrical revolution backwards
+        for (int i = 500; i >= 0; i--) {
+            float angle = _3PI_2 + _2PI * (float) i / 500.0f;
+            setPhaseVoltage(voltage_sensor_align, 0, angle);
+//            encoder->update();
+            _delay(2);
+        }
+        encoder->update();
+        float end_angle = encoder->getFullAngle();
+
+        setPhaseVoltage(0, 0, 0);
+        /** TODO: Power off the drive if necessary */
+        _delay(200);
+
+        // Determine the direction the sensor moved
+        if (mid_angle == end_angle) {
+            exit_flag = 0;
+            DRIVE_LOG("MOT: Failed to notice movement");
+        } else if (mid_angle < end_angle) {
+            DRIVE_LOG("MOT: encoder->direction==CCW");
+            encoder->direction = EncoderBase::Direction::CCW;
+        } else {
+            DRIVE_LOG("MOT: encoder->direction==CW");
+            encoder->direction = EncoderBase::Direction::CW;
+        }
+
+        // check pole pair number
+        float delta_angle = std::fabs(mid_angle - end_angle);
+        if (std::fabs(delta_angle * (float) pole_pairs - _2PI) > 0.5f) {
+            // 0.5f is arbitrary number it can be lower or higher!
+            exit_flag = 0;
+            DRIVE_LOG("MOT: PP check: fail - estimated pp: %f", _2PI / delta_angle);
+        } else {
+            DRIVE_LOG("MOT: PP check: OK!");
+        }
+    } else
+        DRIVE_LOG("MOT: Skip dir calib.");
+
+    // zero electric angle not known
+    if (!_isset(zero_electric_angle)) {
+        // align the electrical phases of the motor and sensor
+        // set angle -90(270 = 3PI/2) degrees
+        setPhaseVoltage(voltage_sensor_align, 0, _3PI_2);
+        _delay(700);
+        encoder->update();
+
+        // get the current zero electric angle
+        zero_electric_angle = 0; // Clear offset first
+        zero_electric_angle = electricalAngle();
+
+        //stop everything
+        setPhaseVoltage(0, 0, 0);
+        /** TODO: Power off the drive if necessary */
+        _delay(200);
+    } else
+        DRIVE_LOG("MOT: Skip offset calib.");
+
+    return exit_flag;
 }
 
 /**
@@ -350,7 +453,7 @@ int Motor::alignSensor() {
 float Motor::shaftAngle() {
     // if no sensor linked return previous value ( for open loop )
     if (!encoder) return shaft_angle;
-    return (float) encoder->direction * encoder->getAngle() - sensor_offset;
+    return (float) encoder->direction * lpf_angle(encoder->getFullAngle()) - sensor_offset;
 }
 
 /**
@@ -415,9 +518,10 @@ float Motor::angleOpenloop(float target_angle) {
 
     // calculate the necessary angle to move from current position towards target angle
     // with maximal velocity (velocity_limit)
-    // TODO sensor precision: this calculation is not numerically precise. The angle can grow to the point
-    //                        where small position changes are no longer captured by the precision of floats
-    //                        when the total position is large.
+    /** TODO sensor precision: this calculation is not numerically precise. The angle can grow to the point
+     *                         where small position changes are no longer captured by the precision of floats
+     *                          when the total position is large.
+     */
     if (std::abs(target_angle - shaft_angle) > std::abs(velocity_limit * Ts)) {
         shaft_angle += _sign(target_angle - shaft_angle) * std::abs(velocity_limit) * Ts;
         shaft_velocity = velocity_limit;
@@ -431,7 +535,7 @@ float Motor::angleOpenloop(float target_angle) {
     Uq = _isset(phase_resistance) ?
          _constrain(current_limit * phase_resistance, -voltage_limit, voltage_limit) : Uq;
 
-    setPhaseVoltage(Uq, 0, _normalizeAngle(shaft_angle) * (float)pole_pairs);
+    setPhaseVoltage(Uq, 0, _normalizeAngle(shaft_angle) * (float) pole_pairs);
     open_loop_timestamp = time;
 
     return Uq;

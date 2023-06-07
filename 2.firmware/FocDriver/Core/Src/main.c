@@ -18,12 +18,13 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "dma.h"
 #include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "common_inc.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -55,7 +56,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-ccmram int test[1024];
+ccmram char test[1024];
 /* USER CODE END 0 */
 
 /**
@@ -65,7 +66,7 @@ ccmram int test[1024];
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-    for (int i = 0; i < 1024; ++i, test[i] = 0);
+  for (int i = 0; i < sizeof(test); ++i, test[i] = 0);
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -86,9 +87,10 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-
+    Main();
   /* USER CODE END 2 */
 
   /* Infinite loop */

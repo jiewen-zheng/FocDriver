@@ -16,6 +16,7 @@
  */
 void _delay(unsigned long ms);
 
+void delayMicroseconds(unsigned long us);
 /**
  * Function implementing timestamp getting function in microseconds
  * hardware specific

@@ -5,8 +5,8 @@
 #ifndef _PID_H
 #define _PID_H
 
-#include "src/Common/time_utils.h"
-#include "src/Common/math_utils.h"
+#include "../Common/time_utils.h"
+#include "../Common/math_utils.h"
 
 class PIDController {
 public:

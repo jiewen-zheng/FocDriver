@@ -9,9 +9,9 @@
 
 class EncoderBase {
 public:
-    explicit EncoderBase() = default;
+    explicit EncoderBase();
 
-    enum Direction : int8_t {
+    enum Direction  {
         CW = 1,  // clockwise
         CCW = -1, // counter clockwise
         UNKNOWN = 0   // not yet known or invalid state
@@ -21,13 +21,31 @@ public:
 
     virtual void init() = 0;
 
-    virtual void update() = 0;
+    /** Updates the sensor values by reading the hardware sensor. */
+    virtual void update();
 
-    virtual float getAngle() = 0;
+    /** Get current position (in rad) including full rotations and shaft angle. */
+    virtual float getFullAngle();
 
-    virtual float getVelocity() = 0;
+    /** Get mechanical shaft angle in the range 0 to 2PI. */
+    virtual float getMechanicalAngle();
 
-    virtual float getMechanicalAngle() = 0;
+    /** Get current angular velocity ( rad/s ) */
+    virtual float getVelocity();
+
+    /** Get the number of full rotations */
+    virtual int32_t getRotationCount();
+
+protected:
+    virtual void variable_init();
+    virtual float getRawAngle() = 0;
+
+    float angle_last = 0.0f;    //!< result of last call to getSensorAngle(), used for count rotations and velocity
+    uint64_t angle_timestamp = 0;   //!< timestamp of last call to getFullAngle, used for velocity
+    float velocity_last = 0.0f;
+    uint64_t velocity_timestamp = 0;
+    int32_t rotation_count = 0;
+    int32_t rotation_count_last = 0;
 };
 
 

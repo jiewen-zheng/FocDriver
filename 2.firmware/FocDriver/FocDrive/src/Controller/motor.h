@@ -9,27 +9,27 @@
 #include "../Sensors/CurrentSense/current_sense_base.h"
 #include "../Drivers/driver_base.h"
 
-#include "src/Common/math_utils.h"
+#include "../Common/math_utils.h"
 #include "lowpass_filter.h"
 #include "pid.h"
 
-enum ControlMode_t : uint8_t {
+enum ControlMode_t {
     TORQUE = 0x00,  //!< Torque control
     VELOCITY,       //!< Velocity motion control
     ANGLE,          //!< Position/angle motion control
     VELOCITY_OPEN_LOOP,
-    ANGLE_OPEN_LOOP
+    ANGLE_OPEN_LOOP,
 };
 
-enum TorqueControlMode_t : uint8_t {
+enum TorqueControlMode_t {
     VOLTAGE = 0x00,     //!< Torque control using voltage
     DC_CURRENT,         //!< Torque control using DC current (one current magnitude)
     FOC_CURRENT,        //!< torque control using dq currents
 };
 
-enum MotorStatus_t : uint8_t {
-    UNINITIALIZED,  //!< Motor is not yet initialized
-    INITIALIZED,    //!< Motor initialization is in progress
+enum MotorStatus_t {
+    UNINITIALIZED = 0x00,  //!< Motor is not yet initialized
+    INITIALIZING,   //!< Motor initialization is in progress
     UNCALIBRATED,   //!< Motor is initialized, but not calibrated (open loop possible)
     CALIBRATING,    //!< Motor calibration in progress
     READY,          //!< Motor is initialized and calibrated (closed loop possible)
@@ -50,12 +50,22 @@ public:
         torque_controller_mode = TorqueControlMode_t::VOLTAGE;
 
         controller_mode = ControlMode_t::ANGLE;
-        voltage_limit = 12.0f;
-        current_limit = 0.2f;
+        voltage_limit = 12.0f;  //!< 12Volt default power supply voltage
+        current_limit = 0.2f;   //!< 0.2Amps current limit by default
         velocity_limit = 20.0f;
 
         // aligning voltage [V]
         voltage_sensor_align = 1.0f;
+
+
+        // default target value
+        target = 0;
+        voltage.q = 0;
+        voltage.d = 0;
+        set_current = 0;
+        current.q = 0;
+        current.d = 0;
+
     }
 
     // configuration structures
@@ -78,10 +88,9 @@ public:
     PIDController pid_angle{20.0f, 0, 0, 0, 20.0f};
 
     // sensor related variables
-    float sensor_offset;    //!< user defined sensor zero offset
-    float zero_electric_angle = NOT_SET;    //!< user defined sensor zero offset
-    int sensor_direction = NOT_SET; //!< if sensor_direction == Direction::CCW then direction will be flipped to CW
-    float voltage_sensor_align; //!< sensor and motor align voltage parameter
+    float sensor_offset = 0.0f;     //!< user defined sensor zero offset
+    float zero_electric_angle = NOT_SET; //!< absolute zero electric angle - if available
+    float voltage_sensor_align;     //!< sensor and motor align voltage parameter
 
     // state variables
     float target;           //!< current target value - depends of the controller

@@ -9,8 +9,6 @@
 
 class CurrentSenseBase {
 public:
-    CurrentSenseBase() = default;
-
     bool initialized = false;
     float pwm_duty_a;
     float pwm_duty_b;
@@ -21,9 +19,13 @@ public:
 
     virtual bool driverAlign(float align_voltage) = 0;
 
-    virtual float getDCCurrent(float electrical_angle) = 0;
+    virtual PhaseCurrent_t getPhaseCurrents() = 0;
 
-    virtual DQCurrent_t getFOCCurrents(float electrical_angle) = 0;
+    /** Function reading the magnitude of the current set to the motor */
+    virtual float getDCCurrent(float electrical_angle = 0);
+
+    /** Function used for FOC contorl, it reads the DQ currents of the motor */
+    virtual DQCurrent_t getFOCCurrents(float electrical_angle);
 };
 
 
