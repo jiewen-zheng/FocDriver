@@ -21,7 +21,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="91ee53ab-c486-4a36-beef-28044117edc3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../../LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FocDriver/thirdparty/Stm32Gpio.h" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/thirdparty/Stm32Gpio.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,7 +119,7 @@
       <workItem from="1698583429150" duration="5797000" />
       <workItem from="1698590822717" duration="233000" />
       <workItem from="1698754013254" duration="5598000" />
-      <workItem from="1698760772938" duration="245000" />
+      <workItem from="1698760772938" duration="898000" />
     </task>
     <servers />
   </component>

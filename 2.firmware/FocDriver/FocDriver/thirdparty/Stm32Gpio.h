@@ -30,7 +30,7 @@ public:
 public:
     GPIO_TypeDef     *port;
     uint32_t         pin;
-    uint32_t         lastMode;
+    uint32_t         lastMode{};
     GPIO_InitTypeDef GPIO_InitStruct = {0};
 };
 
