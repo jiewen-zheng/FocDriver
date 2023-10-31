@@ -151,7 +151,7 @@ GenerateClassCluster=0
 DocumentUniqueId=HEVBTTNW
 
 [Document7]
-DocumentPath=aux.SchDoc
+DocumentPath=dc_aux.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=1
