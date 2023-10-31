@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="CMakePresetLoader">{
+  &quot;useNewFormat&quot;: true
+}</component>
+  <component name="CMakeReloadState">
+    <option name="reloaded" value="true" />
+  </component>
+  <component name="CMakeRunConfigurationManager">
+    <generated>
+      <config projectName="FocDriver" targetName="FocDriver.elf" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="91ee53ab-c486-4a36-beef-28044117edc3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../LICENSE" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="CLion" />
+    <option name="majorVersion" value="2023" />
+    <option name="minorVersion" value="1.3" />
+  </component>
+  <component name="ProjectId" id="2QdE2wfqSgJwJVmdS54sXIF6Ks7" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/items/jb/FocDriver/2.firmware/FocDriver/FocDrive/thirdparty&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
+    &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\items\jb\FocDriver\2.firmware\FocDriver\FocDrive\thirdparty" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\items\FocDrive\FocDrive\src\Common" />
+    </key>
+  </component>
+  <component name="RunManager" selected="OpenOCD 下载并运行.OCD FocDrive">
+    <configuration name="FocDriver.elf" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="FocDriver" TARGET_NAME="FocDriver.elf" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="FocDriver" RUN_TARGET_NAME="FocDriver.elf">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="CMake 应用程序.FocDriver.elf" />
+      <item itemvalue="OpenOCD 下载并运行.OCD FocDrive" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="91ee53ab-c486-4a36-beef-28044117edc3" name="Changes" comment="" />
+      <created>1685674855229</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1685674855229</updated>
+      <workItem from="1685674908415" duration="620000" />
+      <workItem from="1685676200546" duration="52000" />
+      <workItem from="1685676269379" duration="46000" />
+      <workItem from="1685677000977" duration="402000" />
+      <workItem from="1685677411176" duration="8019000" />
+      <workItem from="1685929336549" duration="1318000" />
+      <workItem from="1685948744725" duration="10979000" />
+      <workItem from="1686014906597" duration="27484000" />
+      <workItem from="1686054575503" duration="1162000" />
+      <workItem from="1686116537700" duration="4764000" />
+      <workItem from="1686121346694" duration="10877000" />
+      <workItem from="1686226970277" duration="22000" />
+      <workItem from="1693898720367" duration="15000" />
+      <workItem from="1697873261605" duration="1052000" />
+      <workItem from="1697975870728" duration="4380000" />
+      <workItem from="1697981488788" duration="4114000" />
+      <workItem from="1698030164315" duration="2222000" />
+      <workItem from="1698033831416" duration="22732000" />
+      <workItem from="1698119395602" duration="4935000" />
+      <workItem from="1698128536748" duration="21933000" />
+      <workItem from="1698565847171" duration="8520000" />
+      <workItem from="1698577256415" duration="250000" />
+      <workItem from="1698579793781" duration="1327000" />
+      <workItem from="1698583429150" duration="5797000" />
+      <workItem from="1698590822717" duration="233000" />
+      <workItem from="1698754013254" duration="5598000" />
+      <workItem from="1698760772938" duration="245000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.cfg" />
+  </component>
+  <component name="VCPKGProject">
+    <isAutomaticEditVcpkgJson value="false" />
+    <isAutomaticCheckingOnLaunch value="false" />
+    <isAutomaticFoundErrors value="true" />
+    <isAutomaticFoundErrors value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="com.jetbrains.cidr.embedded.openocd.conf.type">
+        <watch expression="port" />
+        <watch expression="regFile" />
+        <watch expression="(fault2 &amp; 0x0080) &lt;&lt; 16" />
+        <watch expression="uartBuff" />
+        <watch expression="receivedBuff" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
