@@ -52,13 +52,13 @@ public:
         // torque control type is voltage by default
         torque_controller_mode = TorqueControlMode::VOLTAGE;
 
-        controller_mode = ControlMode::VELOCITY_OPEN_LOOP;
+        controller_mode = ControlMode::VELOCITY;
         voltage_limit   = DEF_POWER_SUPPLY / 3; //!< 12Volt power supply voltage
         current_limit   = 0.2f;     //!< 0.2Amps current limit by default
         velocity_limit  = 20.0f;    //!< angle velocity limit
 
-        // sensor and motor align voltage [1.0f]
-        voltage_sensor_align = 0.5f;    //!< voltage for sensor and motor zero alignment
+        // sensor and motor align voltage
+        voltage_sensor_align = 3.0f;    //!< voltage for sensor and motor zero alignment
 
         voltage_bemf = 0;
 
@@ -81,7 +81,7 @@ public:
     LowPassFilter lpf_current_q{0.005f};
     LowPassFilter lpf_current_d{0.005f};
     LowPassFilter lpf_velocity{0.005f}; // 0.1f
-    LowPassFilter lpf_angle{0.0}; // 0.03f
+    LowPassFilter lpf_angle{0.03f}; // 0.03f
     PIDController pid_current_q{3.0f, 300.0f, 0.0f, 0.0f, DEF_POWER_SUPPLY};
     PIDController pid_current_d{3.0f, 300.0f, 0.0f, 0.0f, DEF_POWER_SUPPLY};
     PIDController pid_velocity{0.5f, 10, 0.0f, 1000.0f, DEF_POWER_SUPPLY};
@@ -130,7 +130,7 @@ public:
      * Function initializing FOC algorithm
      * and aligning sensor's and motors' zero position
      */
-    virtual int initFOC(float zero_electric_offset, EncoderBase::Direction sensor_dir);
+    virtual int initFOC(EncoderBase::Direction sensor_dir = EncoderBase::Direction::UNKNOWN, float zero_electric_offset = NOT_SET);
 
     /** Function linking a motor and other device */
     void linkDriver(DriverBase *_driver);

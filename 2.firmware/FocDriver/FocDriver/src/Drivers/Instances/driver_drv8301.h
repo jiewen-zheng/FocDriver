@@ -11,8 +11,6 @@
 #include "../../Common/DriveLog.h"
 #include "thirdparty/Stm32Gpio.h"
 
-#include "spi.h"
-#include "tim.h"
 
 class Drv8301 : public DriverBase {
 public:

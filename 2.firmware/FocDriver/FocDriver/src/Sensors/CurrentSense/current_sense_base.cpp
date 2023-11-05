@@ -15,3 +15,7 @@
 float CurrentSenseBase::getDCCurrent(float electrical_angle) {
     return 0;
 }
+
+DQCurrent_t CurrentSenseBase::getFOCCurrents(float electrical_angle) {
+    return DQCurrent_t();
+}

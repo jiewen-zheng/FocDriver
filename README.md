@@ -1,4 +1,15 @@
-# FocDriver
-移植simpleFoc到stm32的一个项目，使用双通道`Drv8301`驱动器
+# 基于DRV8301的双通道无刷电机驱动器
 
-![FocDriver](D:\items\jb\FocDriver\5.doc\Images\Top.png)
+---
+FOC算法采样SimpleFOC
+
+>* 主控使用STM32F405RGT6
+>* 板载OLED屏幕
+
+
+
+![0](./5.doc/Images/0.jpg)
+
+![1](./5.doc/Images/1.png)
+
+![2](./5.doc/Images/2.png)

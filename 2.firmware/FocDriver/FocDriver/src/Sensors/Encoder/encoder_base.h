@@ -5,21 +5,26 @@
 #ifndef _ENCODER_BASE_H
 #define _ENCODER_BASE_H
 
-#include <stdint-gcc.h>
+#include <cstdint>
+#include "../../Common/time_utils.h"
+#include "../../Common/math_utils.h"
 
 class EncoderBase {
 public:
-    explicit EncoderBase();
-
-    enum Direction  {
-        CW = 1,  // clockwise
-        CCW = -1, // counter clockwise
-        UNKNOWN = 0   // not yet known or invalid state
+    enum Direction {
+        CW      = 1,     // clockwise
+        CCW     = -1,   // counter-clockwise
+        UNKNOWN = 0 // not yet known or invalid state
     };
+
+public:
+    explicit EncoderBase() {}
 
     Direction direction = CW;
 
     virtual void init() = 0;
+
+    virtual float getRawAngle() = 0;
 
     /** Updates the sensor values by reading the hardware sensor. */
     virtual void update();
@@ -38,15 +43,13 @@ public:
 
 protected:
     virtual void variable_init();
-    virtual float getRawAngle() = 0;
 
-    float angle_last = 0.0f;    //!< result of last call to getSensorAngle(), used for cmd_count rotations and velocity
-    uint64_t angle_timestamp = 0;   //!< timestamp of last call to getFullAngle, used for velocity
-    float velocity_last = 0.0f;
-    uint64_t velocity_timestamp = 0;
-    int32_t rotation_count = 0;
-    int32_t rotation_count_last = 0;
+    float    angle_last          = 0.0f;    //!< result of last call to getSensorAngle(), used for cmd_count rotations and velocity
+    uint64_t angle_timestamp     = 0;       //!< timestamp of last call to getFullAngle, used for velocity
+    float    velocity_last       = 0.0f;
+    uint64_t velocity_timestamp  = 0;
+    int32_t  rotation_count      = 0;
+    int32_t  rotation_count_last = 0;
 };
-
 
 #endif //_ENCODER_BASE_H

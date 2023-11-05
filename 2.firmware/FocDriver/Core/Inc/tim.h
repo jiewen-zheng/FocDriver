@@ -37,7 +37,7 @@ extern TIM_HandleTypeDef htim1;
 extern TIM_HandleTypeDef htim3;
 
 /* USER CODE BEGIN Private defines */
-#define TIM_PWM_FREQ    20000
+#define TIM_PWM_FREQ    30000
 #define TIM_Period      (SystemCoreClock / TIM_PWM_FREQ)
 /* USER CODE END Private defines */
 

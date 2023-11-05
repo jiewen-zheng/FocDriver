@@ -6,7 +6,7 @@
 # It is included in the main 'build.ninja'.
 
 # =============================================================================
-# Project: FocDriver
+# Project: FocDrive
 # Configurations: Debug
 # =============================================================================
 # =============================================================================
@@ -14,7 +14,7 @@
 #############################################
 # Rule for compiling ASM files.
 
-rule ASM_COMPILER__FocDriver.2eelf_Debug
+rule ASM_COMPILER__FocDrive.2eelf_Debug
   depfile = $DEP_FILE
   deps = gcc
   command = D:\software\toolChain\gcc-arm-none-eabi-10.3\bin\arm-none-eabi-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -24,7 +24,7 @@ rule ASM_COMPILER__FocDriver.2eelf_Debug
 #############################################
 # Rule for compiling C files.
 
-rule C_COMPILER__FocDriver.2eelf_Debug
+rule C_COMPILER__FocDrive.2eelf_Debug
   depfile = $DEP_FILE
   deps = gcc
   command = D:\software\toolChain\gcc-arm-none-eabi-10.3\bin\arm-none-eabi-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -34,7 +34,7 @@ rule C_COMPILER__FocDriver.2eelf_Debug
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__FocDriver.2eelf_Debug
+rule CXX_COMPILER__FocDrive.2eelf_Debug
   depfile = $DEP_FILE
   deps = gcc
   command = D:\software\toolChain\gcc-arm-none-eabi-10.3\bin\arm-none-eabi-g++.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -44,7 +44,7 @@ rule CXX_COMPILER__FocDriver.2eelf_Debug
 #############################################
 # Rule for linking CXX executable.
 
-rule CXX_EXECUTABLE_LINKER__FocDriver.2eelf_Debug
+rule CXX_EXECUTABLE_LINKER__FocDrive.2eelf_Debug
   command = cmd.exe /C "$PRE_LINK && D:\software\toolChain\gcc-arm-none-eabi-10.3\bin\arm-none-eabi-g++.exe $FLAGS $LINK_FLAGS $in -o $TARGET_FILE $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX executable $TARGET_FILE
   restat = $RESTAT

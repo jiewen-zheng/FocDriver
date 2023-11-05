@@ -3,9 +3,9 @@
 //
 
 #include "encoder_base.h"
-#include "../../Common/time_utils.h"
-#include "../../Common/math_utils.h"
 #include <cmath>
+
+
 
 void EncoderBase::update() {
     float angle = getRawAngle();
@@ -37,9 +37,9 @@ float EncoderBase::getVelocity() {
     // velocity calculate
     float vel = ((float) (rotation_count - rotation_count_last) * _2PI + (angle_last - velocity_last)) / time;
 
-    velocity_last = angle_last;
+    velocity_last       = angle_last;
     rotation_count_last = rotation_count;
-    velocity_timestamp = angle_timestamp;
+    velocity_timestamp  = angle_timestamp;
 
     return vel;
 }
@@ -52,14 +52,14 @@ void EncoderBase::variable_init() {
     // Initialize all the internal variables of EncoderBase
     // to ensure a "smooth" startup (without a 'jump' from zero)
     getRawAngle();  // call once
-    _delayUs(1);
-    velocity_last = getRawAngle();
+    _delayUs(10);
+    velocity_last      = getRawAngle();
     velocity_timestamp = _micros();
     _delay(1);
 
     getRawAngle(); // call once
     _delayUs(1);
-    angle_last = getRawAngle();
+    angle_last      = getRawAngle();
     angle_timestamp = _micros();
 }
 

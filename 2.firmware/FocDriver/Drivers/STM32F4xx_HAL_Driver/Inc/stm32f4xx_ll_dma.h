@@ -1259,7 +1259,7 @@ __STATIC_INLINE uint32_t LL_DMA_GetFIFOStatus(DMA_TypeDef *DMAx, uint32_t Stream
 }
 
 /**
-  * @brief Disable FifoArray mode.
+  * @brief Disable Fifo mode.
   * @rmtoll FCR          DMDIS          LL_DMA_DisableFifoMode
   * @param  DMAx DMAx Instance
   * @param  Stream This parameter can be one of the following values:
@@ -1279,7 +1279,7 @@ __STATIC_INLINE void LL_DMA_DisableFifoMode(DMA_TypeDef *DMAx, uint32_t Stream)
 }
 
 /**
-  * @brief Enable FifoArray mode.
+  * @brief Enable Fifo mode.
   * @rmtoll FCR          DMDIS          LL_DMA_EnableFifoMode 
   * @param  DMAx DMAx Instance
   * @param  Stream This parameter can be one of the following values:

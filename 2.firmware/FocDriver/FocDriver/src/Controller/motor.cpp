@@ -37,11 +37,11 @@ Motor::MotorStatus Motor::getStatus() {
  * @return
  */
 bool Motor::init(float zero_electric_offset, EncoderBase::Direction sensor_dir) {
-//    if (!driver || !driver->isReady()) {
-//        status = MotorStatus::INIT_FAILED;
-//        DRIVE_LOG("MOT: Init not possible, No driver.");
-//        return false;
-//    }
+    if (!driver || !driver->isReady()) {
+        status = MotorStatus::INIT_FAILED;
+        DRIVE_LOG("MOT: Init not possible, No driver.");
+        return false;
+    }
 
     status           = MotorStatus::INITIALIZING;
     DRIVE_LOG("MOT: Init...");
@@ -95,7 +95,7 @@ bool Motor::init(float zero_electric_offset, EncoderBase::Direction sensor_dir) 
  * @param encoder_dir sensor natural direction - default is CW
  * @return
  */
-int Motor::initFOC(float zero_electric_offset, EncoderBase::Direction sensor_dir) {
+int Motor::initFOC(EncoderBase::Direction sensor_dir, float zero_electric_offset) {
     int exit_flag = 1; // success
 
     status = MotorStatus::CALIBRATING;
@@ -103,7 +103,6 @@ int Motor::initFOC(float zero_electric_offset, EncoderBase::Direction sensor_dir
     // align motor if necessary
     if (_isset(zero_electric_offset)) {
         zero_electric_angle = zero_electric_offset;
-
     }
 
     // sensor and motor alignment - can be skipped
@@ -117,6 +116,8 @@ int Motor::initFOC(float zero_electric_offset, EncoderBase::Direction sensor_dir
     } else {
         DRIVE_LOG("MOT: No encoder.");
     }
+
+    _delay(100);
 
     // aligning the current sensor - can be skipped
     if (currentSense) {
@@ -346,7 +347,7 @@ void Motor::setPhaseVoltage(float Uq, float Ud, float angle_el) {
         angle_el = _normalizeAngle(angle_el + _PI_2);
     }
     // find the sector we are in currently
-    int   sector = std::floor((angle_el / _PI_3) + 1);
+    int   sector = std::floor(angle_el / _PI_3) + 1;
     // calculate the duty cycles
     float T1     = _SQRT3 * _sin((float) sector * _PI_3 - angle_el) * uOUT;
     float T2     = _SQRT3 * _sin(angle_el - ((float) sector - 1.0f) * _PI_3) * uOUT;
@@ -417,8 +418,8 @@ int Motor::alignSensor() {
     // if unknown natural direction
     if (encoder->direction == EncoderBase::Direction::UNKNOWN) {
         // find natural direction
-        for (int i = 0; i <= 500; i++) {
-            float angle = _3PI_2 + _2PI * (float) i / 500.0f;
+        for (int i = 0; i <= 1000; i++) {
+            float angle = _3PI_2 + _2PI * i / 500.0f;
             setPhaseVoltage(voltage_sensor_align, 0, angle);
 //            encoder->update();
             _delay(2);
@@ -428,7 +429,7 @@ int Motor::alignSensor() {
         float mid_angle = encoder->getFullAngle();
 
         // move one electrical revolution backwards
-        for (int i = 500; i >= 0; i--) {
+        for (int i = 1000; i >= 0; i--) {
             float angle = _3PI_2 + _2PI * (float) i / 500.0f;
             setPhaseVoltage(voltage_sensor_align, 0, angle);
 //            encoder->update();
@@ -442,9 +443,10 @@ int Motor::alignSensor() {
         _delay(200);
 
         // Determine the direction the sensor moved
+        float delta_angle = std::fabs(mid_angle - end_angle);
         if (mid_angle == end_angle) {
-            exit_flag = 0;
             DRIVE_LOG("MOT: Failed to notice movement");
+            return 0;
         } else if (mid_angle < end_angle) {
             DRIVE_LOG("MOT: encoder->direction==CCW");
             encoder->direction = EncoderBase::Direction::CCW;
@@ -454,10 +456,9 @@ int Motor::alignSensor() {
         }
 
         // check pole pair number
-        float delta_angle = std::fabs(mid_angle - end_angle);
-        if (std::fabs(delta_angle * (float) pole_pairs - _2PI) > 0.5f) {
+        if (std::fabs(delta_angle*pole_pairs - _2PI) > 0.5f) {
             // 0.5f is arbitrary number it can be lower or higher!
-            exit_flag = 0;
+//            exit_flag = 0;
             DRIVE_LOG("MOT: PP check: fail - estimated pp: %f", _2PI / delta_angle);
         } else {
             DRIVE_LOG("MOT: PP check: OK!");
@@ -476,6 +477,9 @@ int Motor::alignSensor() {
         // get the current zero electric angle
         zero_electric_angle = 0; // Clear offset first
         zero_electric_angle = electricalAngle();
+
+        _delay(20);
+        DRIVE_LOG("MOT: Zero electric angle: %f", zero_electric_angle);
 
         //stop everything
         setPhaseVoltage(0, 0, 0);
@@ -516,7 +520,6 @@ float Motor::electricalAngle() {
     if (!encoder) {
         return electrical_angle;
     }
-
     return _normalizeAngle((float) (encoder->direction * pole_pairs) * encoder->getMechanicalAngle()
                            - zero_electric_angle);
 }

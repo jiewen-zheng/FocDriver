@@ -5,6 +5,9 @@
 #include "driver_drv8301.h"
 #include "../../Common/math_utils.h"
 
+#include "spi.h"
+#include "tim.h"
+
 void Drv8301::hardReset() {
     disable();
     enable();
