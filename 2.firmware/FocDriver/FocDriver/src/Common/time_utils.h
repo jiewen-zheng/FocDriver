@@ -10,19 +10,19 @@
  * Get microseconds in the system.
  * hardware specific
  */
- unsigned long _micros();
+unsigned int _micros();
 
  /**
   * Delay in milliseconds.
   * @param ms Delay milliseconds.
   */
-void _delay(unsigned long ms);
+void _delay(unsigned int ms);
 
 /**
  * Delay in microsecond.
  * @param ms Delay microsecond.
  */
-void _delayUs(unsigned long us);
+void _delayUs(unsigned int us);
 
 
 #endif //_TIME_UTILS_H

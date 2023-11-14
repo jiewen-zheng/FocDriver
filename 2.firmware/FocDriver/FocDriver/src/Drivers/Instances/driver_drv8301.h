@@ -58,11 +58,11 @@ public:
             DriverBase(_voltage_power_supply, _voltage_limit),
             ncs_gpio(_cs), gate_gpio(_gate), fault_gpio(_fault) {}
 
-    void hardReset();
+    void reset();
 
     bool config(float _gain);
-    FaultType getErr();
-    bool getFAULT();
+    FaultType getError();
+    bool getFault();
     void checks();
 
     bool init() override;

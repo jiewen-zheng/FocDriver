@@ -8,7 +8,7 @@
 #include "Stm32Gpio.h"
 
 class SoftI2c {
-#define WAITE_TIME      10
+#define WAITE_TIME      5   //!< [us]
 #define CHECK_ACK_COUNT 50
     typedef void (*I2cDelay)(uint32_t time);
 
@@ -16,7 +16,7 @@ public:
     SoftI2c(Stm32Gpio scl_, Stm32Gpio sda_, I2cDelay delay_) :
             scl(scl_), sda(sda_), delay(delay_) {}
 
-    SoftI2c();
+    ~SoftI2c(){}
 
     void init();
 

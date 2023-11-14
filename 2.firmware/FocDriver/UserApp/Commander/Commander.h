@@ -8,7 +8,7 @@
 #include <cstdio>
 #include "FifoArray/FifoArray.h"
 
-#define COMMAND_REGISTER_SIZE   20
+#define COMMAND_REGISTER_SIZE   16
 #define MAX_COMMAND_LENGTH      32
 
 #define CMD_PRINT(format, ...)  printf(format, ##__VA_ARGS__)

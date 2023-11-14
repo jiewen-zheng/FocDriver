@@ -12,7 +12,6 @@ struct Subscriptions {
     void *data = nullptr;
 } static subscriptions[N_EXIT];
 
-
 bool Stm32Gpio::config(uint32_t mode, uint32_t pull, uint32_t speed) {
     if (port == GPIOA) {
         __HAL_RCC_GPIOA_CLK_ENABLE();
@@ -48,6 +47,11 @@ void Stm32Gpio::write(bool state) {
 
 bool Stm32Gpio::read() {
     return port && HAL_GPIO_ReadPin(port, pin);
+}
+
+void Stm32Gpio::toggle() {
+    if (port)
+        HAL_GPIO_TogglePin(port, pin);
 }
 
 bool Stm32Gpio::subscribe(bool risingEdge, bool fallingEdge, void (*callback)(void *), void *data) {
@@ -139,5 +143,6 @@ IRQn_Type Stm32Gpio::getIrqNumber() {
             return (IRQn_Type) 0; // impossible
     }
 }
+
 
 

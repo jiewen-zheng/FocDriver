@@ -64,7 +64,7 @@ float _cos(float a) {
  * @return
  */
 float _normalizeAngle(float angle) {
-    float a = std::fmod(angle, _2PI);
+    float a = fmod(angle, _2PI);
     return a >= 0 ? a : (a + _2PI);
 }
 

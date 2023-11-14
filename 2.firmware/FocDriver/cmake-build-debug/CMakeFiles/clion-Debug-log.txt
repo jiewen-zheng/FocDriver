@@ -1,5 +1,19 @@
-"D:\software\JetBrains\CLion 2023.1.4\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=D:/software/JetBrains/CLion 2023.1.4/bin/ninja/win/x64/ninja.exe" -G Ninja -S D:\items\jb\FocDriver\2.firmware\FocDriver -B D:\items\jb\FocDriver\2.firmware\FocDriver\cmake-build-debug
+"D:\software\JetBrains\CLion 2023.1.4\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=D:/software/JetBrains/CLion 2023.1.4/bin/ninja/win/x64/ninja.exe" -DCMAKE_C_COMPILER=D:/software/Keil_v5/ARM/ARMCLANG/bin/armclang.exe -DCMAKE_CXX_COMPILER=D:/software/Keil_v5/ARM/ARMCLANG/bin/armclang.exe -G Ninja -S D:\items\jb\FocDriver\2.firmware\FocDriver -B D:\items\jb\FocDriver\2.firmware\FocDriver\cmake-build-debug
+-- The C compiler identification is GNU 10.3.1
+-- The CXX compiler identification is GNU 10.3.1
+-- The ASM compiler identification is GNU
+-- Found assembler: D:/software/toolChain/gcc-arm-none-eabi-10.3/bin/arm-none-eabi-gcc.exe
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: D:/software/toolChain/gcc-arm-none-eabi-10.3/bin/arm-none-eabi-gcc.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: D:/software/toolChain/gcc-arm-none-eabi-10.3/bin/arm-none-eabi-g++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
 -- Minimal optimization, debug info included
--- Configuring done
--- Generating done
+-- Configuring done (0.7s)
+-- Generating done (0.0s)
 -- Build files have been written to: D:/items/jb/FocDriver/2.firmware/FocDriver/cmake-build-debug

@@ -43,7 +43,7 @@ bool Motor::init(float zero_electric_offset, EncoderBase::Direction sensor_dir) 
         return false;
     }
 
-    status           = MotorStatus::INITIALIZING;
+    status          = MotorStatus::INITIALIZING;
     DRIVE_LOG("MOT: Init...");
 
     // sanity check for the voltage limit configuration
@@ -66,15 +66,15 @@ bool Motor::init(float zero_electric_offset, EncoderBase::Direction sensor_dir) 
 
     // update the controller limits
     if (currentSense) {
-        pid_current_q._limit = voltage_limit;
-        pid_current_d._limit = voltage_limit;
+        pid_current_q.limit = voltage_limit;
+        pid_current_d.limit = voltage_limit;
     }
     if (_isset(phase_resistance) || torque_controller_mode != TorqueControlMode::VOLTAGE) {
-        pid_velocity._limit = current_limit;
+        pid_velocity.limit = current_limit;
     } else {
-        pid_velocity._limit = voltage_limit;
+        pid_velocity.limit = voltage_limit;
     }
-    pid_angle._limit = velocity_limit;
+    pid_angle.limit = velocity_limit;
 
     DRIVE_LOG("MOT: Enable driver.");
     enable();
@@ -192,43 +192,44 @@ void Motor::loopFOC() {
 
     // which is in range 0-2PI
     electrical_angle = electricalAngle();
+
     switch (torque_controller_mode) {
-        case TorqueControlMode::VOLTAGE:
-            // no need to do anything really
-            voltage.q = _isset(phase_resistance) ? set_current * phase_resistance : set_current;
-            voltage.q = _constrain(voltage.q, -voltage_limit, voltage_limit);
-            // voltage.d = 0;
-            break;
+    case TorqueControlMode::VOLTAGE:
+        // no need to do anything really
+//            voltage.q = _isset(phase_resistance) ? set_current * phase_resistance : set_current;
+//            voltage.q = _constrain(voltage.q, -voltage_limit, voltage_limit);
+//         voltage.d = 0;
+        break;
 
-        case TorqueControlMode::DC_CURRENT:
-            // read overall current magnitude
-            current.q     = currentSense->getDCCurrent(electrical_angle);
-            // filter the value
-            current.q     = lpf_current_q(current.q);
-            // calculate the phase voltage
-            voltage.q     = pid_current_q(set_current - current.q);
-            // D voltage - lag compensation
-            if (_isset(phase_inductance))
-                voltage.d = _constrain(-set_current * shaft_velocity * pole_pairs * phase_inductance,
-                                       -voltage_limit, voltage_limit);
-            else voltage.d = 0;
-            break;
+    case TorqueControlMode::DC_CURRENT:
+        // read overall current magnitude
+        current.q     = currentSense->getDCCurrent(electrical_angle);
+        // filter the value
+        current.q     = lpf_current_q(current.q);
+        // calculate the phase voltage
+        voltage.q     = pid_current_q(set_current - current.q);
+        // D voltage - lag compensation
+        if (_isset(phase_inductance))
+            voltage.d = _constrain(-set_current * shaft_velocity * pole_pairs * phase_inductance,
+                                   -voltage_limit, voltage_limit);
+        else voltage.d = 0;
+        break;
 
-        case TorqueControlMode::FOC_CURRENT:
-            if (!currentSense) return;
-            // read dq currents
-            current = currentSense->getFOCCurrents(electrical_angle);
-            // filter the values
-            current.q = lpf_current_q(current.q);
-            current.d = lpf_current_d(current.d);
-            // calculate the phase voltage
-            voltage.q = pid_current_q(set_current - current.q);
-            voltage.d = pid_current_d(-current.d);
-            break;
-        default:
-            // no torque control selected
-            DRIVE_LOG("MOT: no torque control selected.");
-            break;
+    case TorqueControlMode::FOC_CURRENT:
+        if (!currentSense) return;
+        // read dq currents
+        current = currentSense->getFOCCurrents(electrical_angle);
+        // filter the values
+        current.q = lpf_current_q(current.q);
+        current.d = lpf_current_d(current.d);
+        // calculate the phase voltage
+        voltage.q = pid_current_q(set_current - current.q);
+        voltage.d = pid_current_d(-current.d);
+        break;
+    default:
+        // no torque control selected
+        DRIVE_LOG("MOT: no torque control selected.");
+        break;
     }
 
     // set the phase voltage - FOC heart function :)
@@ -264,11 +265,12 @@ void Motor::move(float new_target) {
     if (_isset(kv_rating)) voltage_bemf = shaft_velocity / kv_rating / _RPM_TO_RADS;
 
     if (!currentSense && _isset(phase_resistance)) {
-        current.q = voltage.q / phase_resistance;
+        current.q = (voltage.q - voltage_bemf) / phase_resistance;
     }
 
     switch (controller_mode) {
-        case ControlMode::TORQUE:
+    case ControlMode::TORQUE:
+        if (torque_controller_mode == TorqueControlMode::VOLTAGE) {
             voltage.q = _isset(phase_resistance) ? _constrain(
                     target * phase_resistance + voltage_bemf,
                     -voltage_limit, voltage_limit) : target;
@@ -276,14 +278,15 @@ void Motor::move(float new_target) {
             voltage.d = _isset(phase_inductance) ? _constrain(
                     -target * shaft_velocity * (float) pole_pairs * phase_inductance,
                     -voltage_limit, voltage_limit) : 0;
-            set_current = voltage.q;
-            break;
+        } else {
+            set_current = target;
+        }
+        break;
 
-        case ControlMode::ANGLE:
-            set_angle    = target;
-            set_velocity = pid_angle(set_angle - shaft_angle);
-            set_current  = pid_velocity(set_velocity - shaft_velocity);
-
+    case ControlMode::VELOCITY:
+        set_velocity = target;
+        set_current  = pid_velocity(set_velocity - shaft_velocity);
+        if (torque_controller_mode == TorqueControlMode::VOLTAGE) {
             voltage.q = _isset(phase_resistance) ? _constrain(
                     set_current * phase_resistance + voltage_bemf,
                     -voltage_limit, voltage_limit) : set_current;
@@ -291,12 +294,15 @@ void Motor::move(float new_target) {
             voltage.d = _isset(phase_inductance) ? _constrain(
                     -set_current * shaft_velocity * (float) pole_pairs * phase_inductance,
                     -voltage_limit, voltage_limit) : 0;
-            break;
+        }
+        break;
 
-        case ControlMode::VELOCITY:
-            set_velocity = target;
-            set_current  = pid_velocity(set_velocity - shaft_velocity);
+    case ControlMode::ANGLE:
+        set_angle    = target;
+        set_velocity = pid_angle(set_angle - shaft_angle);
+        set_current  = pid_velocity(set_velocity - shaft_velocity);
 
+        if (torque_controller_mode == TorqueControlMode::VOLTAGE) {
             voltage.q = _isset(phase_resistance) ? _constrain(
                     set_current * phase_resistance + voltage_bemf,
                     -voltage_limit, voltage_limit) : set_current;
@@ -304,23 +310,24 @@ void Motor::move(float new_target) {
             voltage.d = _isset(phase_inductance) ? _constrain(
                     -set_current * shaft_velocity * (float) pole_pairs * phase_inductance,
                     -voltage_limit, voltage_limit) : 0;
-            break;
+        }
+        break;
 
-        case ControlMode::VELOCITY_OPEN_LOOP:
-            set_velocity = target;
-            voltage.q = velocityOpenLoop(set_velocity);
-            voltage.d = 0;
-            break;
+    case ControlMode::VELOCITY_OPEN_LOOP:
+        set_velocity = target;
+        voltage.q = velocityOpenLoop(set_velocity);
+        voltage.d = 0;
+        break;
 
-        case ControlMode::ANGLE_OPEN_LOOP:
-            set_angle = target;
-            voltage.q = angleOpenLoop(set_angle);
-            voltage.d = 0;
-            break;
+    case ControlMode::ANGLE_OPEN_LOOP:
+        set_angle = target;
+        voltage.q = angleOpenLoop(set_angle);
+        voltage.d = 0;
+        break;
 
-        default:
-            DRIVE_LOG("MOT: no controller mode selected.");
-            break;
+    default:
+        DRIVE_LOG("MOT: no controller mode selected.");
+        break;
     }
 }
 
@@ -347,7 +354,7 @@ void Motor::setPhaseVoltage(float Uq, float Ud, float angle_el) {
         angle_el = _normalizeAngle(angle_el + _PI_2);
     }
     // find the sector we are in currently
-    int   sector = std::floor(angle_el / _PI_3) + 1;
+    int   sector = floor(angle_el / _PI_3) + 1;
     // calculate the duty cycles
     float T1     = _SQRT3 * _sin((float) sector * _PI_3 - angle_el) * uOUT;
     float T2     = _SQRT3 * _sin(angle_el - ((float) sector - 1.0f) * _PI_3) * uOUT;
@@ -356,47 +363,48 @@ void Motor::setPhaseVoltage(float Uq, float Ud, float angle_el) {
      * TODO:
      * flag (1) centered modulation around driver limit /2  or  (0) pulled to 0
      */
-    float T0 = 1 - T1 - T2;
-    // float T0 = 0;
+    float T0 = 0;
+    T0 = 1 - T1 - T2;
+
 
     // calculate the duty cycles(times)
     float Ta, Tb, Tc;
     switch (sector) {
-        case 1:
-            Ta = T1 + T2 + T0 / 2;
-            Tb = T2 + T0 / 2;
-            Tc = T0 / 2;
-            break;
-        case 2:
-            Ta = T1 + T0 / 2;
-            Tb = T1 + T2 + T0 / 2;
-            Tc = T0 / 2;
-            break;
-        case 3:
-            Ta = T0 / 2;
-            Tb = T1 + T2 + T0 / 2;
-            Tc = T2 + T0 / 2;
-            break;
-        case 4:
-            Ta = T0 / 2;
-            Tb = T1 + T0 / 2;
-            Tc = T1 + T2 + T0 / 2;
-            break;
-        case 5:
-            Ta = T2 + T0 / 2;
-            Tb = T0 / 2;
-            Tc = T1 + T2 + T0 / 2;
-            break;
-        case 6:
-            Ta = T1 + T2 + T0 / 2;
-            Tb = T0 / 2;
-            Tc = T1 + T0 / 2;
-            break;
-        default:
-            // possible error state
-            Ta = 0;
-            Tb = 0;
-            Tc = 0;
+    case 1:
+        Ta = T1 + T2 + T0 / 2;
+        Tb = T2 + T0 / 2;
+        Tc = T0 / 2;
+        break;
+    case 2:
+        Ta = T1 + T0 / 2;
+        Tb = T1 + T2 + T0 / 2;
+        Tc = T0 / 2;
+        break;
+    case 3:
+        Ta = T0 / 2;
+        Tb = T1 + T2 + T0 / 2;
+        Tc = T2 + T0 / 2;
+        break;
+    case 4:
+        Ta = T0 / 2;
+        Tb = T1 + T0 / 2;
+        Tc = T1 + T2 + T0 / 2;
+        break;
+    case 5:
+        Ta = T2 + T0 / 2;
+        Tb = T0 / 2;
+        Tc = T1 + T2 + T0 / 2;
+        break;
+    case 6:
+        Ta = T1 + T2 + T0 / 2;
+        Tb = T0 / 2;
+        Tc = T1 + T0 / 2;
+        break;
+    default:
+        // possible error state
+        Ta = 0;
+        Tb = 0;
+        Tc = 0;
     }
 
     // calculate the phase voltages and center
@@ -418,10 +426,10 @@ int Motor::alignSensor() {
     // if unknown natural direction
     if (encoder->direction == EncoderBase::Direction::UNKNOWN) {
         // find natural direction
-        for (int i = 0; i <= 1000; i++) {
+        for (int i = 0; i <= 500; i++) {
             float angle = _3PI_2 + _2PI * i / 500.0f;
             setPhaseVoltage(voltage_sensor_align, 0, angle);
-//            encoder->update();
+            encoder->update();
             _delay(2);
         }
         // take and angle in the middle
@@ -429,21 +437,20 @@ int Motor::alignSensor() {
         float mid_angle = encoder->getFullAngle();
 
         // move one electrical revolution backwards
-        for (int i = 1000; i >= 0; i--) {
+        for (int i = 500; i >= 0; i--) {
             float angle = _3PI_2 + _2PI * (float) i / 500.0f;
             setPhaseVoltage(voltage_sensor_align, 0, angle);
-//            encoder->update();
+            encoder->update();
             _delay(2);
         }
         encoder->update();
         float end_angle = encoder->getFullAngle();
-
         setPhaseVoltage(0, 0, 0);
-        /** TODO: Power off the drive if necessary */
         _delay(200);
 
         // Determine the direction the sensor moved
         float delta_angle = std::fabs(mid_angle - end_angle);
+        DRIVE_LOG("MOT: mid_angle=%f, end_angle=%f", mid_angle, end_angle);
         if (mid_angle == end_angle) {
             DRIVE_LOG("MOT: Failed to notice movement");
             return 0;
@@ -456,21 +463,23 @@ int Motor::alignSensor() {
         }
 
         // check pole pair number
-        if (std::fabs(delta_angle*pole_pairs - _2PI) > 0.5f) {
+        DRIVE_LOG("MOT: Check pp =%f", std::fabs(delta_angle * pole_pairs - _2PI));
+        if (std::fabs(delta_angle * pole_pairs - _2PI) > 0.5f) {
             // 0.5f is arbitrary number it can be lower or higher!
 //            exit_flag = 0;
             DRIVE_LOG("MOT: PP check: fail - estimated pp: %f", _2PI / delta_angle);
         } else {
             DRIVE_LOG("MOT: PP check: OK!");
         }
-    } else
+    } else {
         DRIVE_LOG("MOT: Skip dir calib.");
+    }
 
     // zero electric angle not known
     if (!_isset(zero_electric_angle)) {
         // align the electrical phases of the motor and sensor
         // set angle -90(270 = 3PI/2) degrees
-        setPhaseVoltage(voltage_sensor_align, 0, _3PI_2);
+//        setPhaseVoltage(voltage_sensor_align, 0, _3PI_2);
         _delay(700);
         encoder->update();
 
@@ -498,7 +507,7 @@ int Motor::alignSensor() {
 float Motor::shaftAngle() {
     // if no sensor linked return previous value ( for open loop )
     if (!encoder) return shaft_angle;
-    return (float) encoder->direction * lpf_angle(encoder->getFullAngle()) - sensor_offset;
+    return encoder->direction * lpf_angle(encoder->getFullAngle()) - sensor_offset;
 }
 
 /**
@@ -508,7 +517,7 @@ float Motor::shaftAngle() {
 float Motor::shaftVelocity() {
     // if no sensor linked return previous value ( for open loop )
     if (!encoder) return shaft_velocity;
-    return (float) encoder->direction * lpf_velocity(encoder->getVelocity());
+    return encoder->direction * lpf_velocity(encoder->getVelocity());
 }
 
 /**
@@ -517,9 +526,7 @@ float Motor::shaftVelocity() {
  */
 float Motor::electricalAngle() {
     // if no sensor linked return previous value ( for open loop )
-    if (!encoder) {
-        return electrical_angle;
-    }
+    if (!encoder) return electrical_angle;
     return _normalizeAngle((float) (encoder->direction * pole_pairs) * encoder->getMechanicalAngle()
                            - zero_electric_angle);
 }

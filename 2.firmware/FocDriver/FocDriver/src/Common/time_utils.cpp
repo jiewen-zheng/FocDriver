@@ -3,12 +3,11 @@
 //
 
 #include "time_utils.h"
-
 #include "tim.h"
 
 #define TIM_TIME_BASE TIM14
 
-unsigned long _micros() {
+unsigned int _micros() {
     uint32_t ms, cycle_cnt;
 
     do {
@@ -23,11 +22,11 @@ unsigned long _micros() {
  * delay function
  * @param ms - delay millisecond
  */
-void _delay(unsigned long ms) {
+void _delay(unsigned int ms) {
     HAL_Delay(ms - 1);
 }
 
-void _delayUs(unsigned long us) {
+void _delayUs(unsigned int us) {
     uint32_t start = _micros();
 
     while (_micros() - start < us) {

@@ -57,14 +57,20 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define TIM_PWM_FREQ 20000
+#define TIM_CLK_MHZ 168
 #define M0_CS_Pin GPIO_PIN_13
 #define M0_CS_GPIO_Port GPIOC
 #define M1_CS_Pin GPIO_PIN_14
 #define M1_CS_GPIO_Port GPIOC
+#define M1_DC_CAL_Pin GPIO_PIN_15
+#define M1_DC_CAL_GPIO_Port GPIOC
 #define LED_Pin GPIO_PIN_4
 #define LED_GPIO_Port GPIOC
 #define EN_GATE_Pin GPIO_PIN_12
 #define EN_GATE_GPIO_Port GPIOB
+#define M0_DC_CAL_Pin GPIO_PIN_9
+#define M0_DC_CAL_GPIO_Port GPIOC
 #define FAULT_Pin GPIO_PIN_2
 #define FAULT_GPIO_Port GPIOD
 

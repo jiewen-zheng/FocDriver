@@ -9,13 +9,12 @@
 
 class LowPassFilter {
 public:
-    LowPassFilter() = default;
-
     /**
      * @param Tf - Low pass filter time constant
      */
-    explicit LowPassFilter(float Tf) : _Tf(Tf) {
-        output_last = 0;
+    explicit LowPassFilter(float Tf_) :
+            Tf(Tf_) {
+        output_last    = 0;
         timestamp_last = _micros();
     }
 
@@ -23,12 +22,12 @@ public:
 
     float operator()(float input);
 
-    float _Tf;  //!< Low pass filter time constant
+public:
+    float Tf;   //!< Low pass filter time constant
 
 protected:
     unsigned long timestamp_last;   //!< Last execution timestamp
-    float output_last;  //!< filtered value in previous execution step
+    float         output_last;      //!< filtered value in previous execution step
 };
-
 
 #endif //_LOWPASS_FILTER_H

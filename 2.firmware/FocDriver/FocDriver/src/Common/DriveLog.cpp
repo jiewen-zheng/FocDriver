@@ -44,4 +44,5 @@ void DriveLog::floatToU8array(uint8_t *u8array, float data) {
     u8array[3] = farray[3];
 }
 
+
 #endif

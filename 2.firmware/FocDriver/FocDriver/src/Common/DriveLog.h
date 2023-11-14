@@ -5,7 +5,8 @@
 #ifndef DRIVE_LOG_H
 #define DRIVE_LOG_H
 
-#include <cstdio>
+#include "stdint.h"
+#include "stdio.h"
 
 #define DRIVE_LOG_ENABLE 1
 

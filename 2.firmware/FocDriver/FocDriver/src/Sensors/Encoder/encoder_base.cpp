@@ -5,10 +5,8 @@
 #include "encoder_base.h"
 #include <cmath>
 
-
-
 void EncoderBase::update() {
-    float angle = getRawAngle();
+    float angle = getAngle();
     angle_timestamp = _micros();
 
     float delta_angle = angle - angle_last;
@@ -30,18 +28,23 @@ float EncoderBase::getMechanicalAngle() {
 
 float EncoderBase::getVelocity() {
     // calculate sample time
-    float time = (float) (angle_timestamp - velocity_timestamp) * 1e-6f;
+    float Ts = (float) (angle_timestamp - velocity_timestamp) * 1e-6f;
     // Quick fix for strange cases (micros overflow)
-    if (time <= 0) time = 1e-3f;
+    if (Ts <= 0.0f) {
+        velocity_last       = angle_last;
+        rotation_count_last = rotation_count;
+        velocity_timestamp  = angle_timestamp;
+        return velocity;
+    }
+    if (Ts < min_elapsed_time) return velocity; // don't update velocity if deltaT is too small
 
     // velocity calculate
-    float vel = ((float) (rotation_count - rotation_count_last) * _2PI + (angle_last - velocity_last)) / time;
+    velocity = ( (float)(rotation_count - rotation_count_last) * _2PI + (angle_last - velocity_last)) / Ts;
 
     velocity_last       = angle_last;
     rotation_count_last = rotation_count;
     velocity_timestamp  = angle_timestamp;
-
-    return vel;
+    return velocity;
 }
 
 int32_t EncoderBase::getRotationCount() {
@@ -51,15 +54,15 @@ int32_t EncoderBase::getRotationCount() {
 void EncoderBase::variable_init() {
     // Initialize all the internal variables of EncoderBase
     // to ensure a "smooth" startup (without a 'jump' from zero)
-    getRawAngle();  // call once
-    _delayUs(10);
-    velocity_last      = getRawAngle();
+    getAngle();  // call once
+    _delayUs(1);
+    velocity_last      = getAngle();
     velocity_timestamp = _micros();
     _delay(1);
 
-    getRawAngle(); // call once
+    getAngle(); // call once
     _delayUs(1);
-    angle_last      = getRawAngle();
+    angle_last      = getAngle();
     angle_timestamp = _micros();
 }
 

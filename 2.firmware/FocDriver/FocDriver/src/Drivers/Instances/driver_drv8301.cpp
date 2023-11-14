@@ -8,26 +8,26 @@
 #include "spi.h"
 #include "tim.h"
 
-void Drv8301::hardReset() {
+void Drv8301::reset() {
     disable();
     enable();
 }
 
-Drv8301::FaultType Drv8301::getErr() {
+Drv8301::FaultType Drv8301::getError() {
     uint16_t fault1 = readReg(StatusReg_1);
     uint16_t fault2 = readReg(StatusReg_2);
 
     return FaultType((uint32_t) fault1 | ((uint32_t) (fault2 & 0x0080) << 16));
 }
 
-bool Drv8301::getFAULT() {
+bool Drv8301::getFault() {
     return !fault_gpio.read();
 }
 
 bool Drv8301::config(float _gain) {
-
     uint8_t gain           = 3;    //!< max gian setting.
     float   gain_choices[] = {10.0f, 20.0f, 40.0f, 80.0f};
+    _gain = (_gain > gain_choices[gain]) ? gain_choices[gain] : _gain;
     while (gain && (gain_choices[gain] > _gain)) {
         gain--;
     }
@@ -37,7 +37,7 @@ bool Drv8301::config(float _gain) {
     newFile.register_1 =
             (0 << 6)        //!< "Over current Trip" = OC_ADJ_SET / MOS-FET RDS(on), example: 26.17 A = 0.123 V/ 4.7 mΩ
             | (0b01 << 4)   //!< OCP_MODE: OC latch shut down mode.
-            | (0b1 << 3)    //!< 3x PWM mode.
+            | (0b1 << 3)    //!< 3x PWM mode.(0: 6xPWM, 1: 3xPWM)
             | (0b0 << 2)    //!< GATE_RESET: don't reset latched faults.
             | (0b01 << 0);  //!< gate-drive peak current: 0.7A
 
@@ -51,6 +51,7 @@ bool Drv8301::config(float _gain) {
         regFile = newFile;
         state   = State::Uninitialized;
         disable();
+        return false;
     }
 
     return true;
@@ -84,14 +85,10 @@ bool Drv8301::init() {
         return false;
     }
 
-    if (getErr() != NoFault) {
+    if (getFault() || getError() != NoFault) {
         DRIVE_LOG("DRV: Fault.");
         return false;
     }
-
-    /**
-     * TODO: check nFAULT pin.
-     */
 
     state = State::Ready;
     DRIVE_LOG("DRV: Init success.");
@@ -106,6 +103,8 @@ void Drv8301::enable() {
 }
 
 void Drv8301::disable() {
+    setPwm(0, 0, 0);
+
     gate_gpio.write(false);
     _delay(1);  //!< Full reset must be greater than 13us ~ 15us.
 
@@ -117,7 +116,9 @@ bool Drv8301::isReady() {
 }
 
 void Drv8301::setPwm(float Ua, float Ub, float Uc) {
-//    /** Log phase voltage */
+    if (!_enable) return;
+
+    /** Log phase voltage */
 //    float debug[3] = {Ua, Ub, Uc};
 //    DriveLog::sendProtocol(debug, 3);
 
@@ -129,7 +130,7 @@ void Drv8301::setPwm(float Ua, float Ub, float Uc) {
     duty_b = _constrain(Ub / voltage_power_supply, 0.0f, 1.0f);
     duty_c = _constrain(Uc / voltage_power_supply, 0.0f, 1.0f);
 
-    /** Log phase voltage */
+    /** Log duty compare value */
 //    float debug[4] = {duty_a * TIM_Period, duty_b * TIM_Period, duty_c * TIM_Period, duty_a + duty_b + duty_c};
 //    DriveLog::sendProtocol(debug, 3);
 
@@ -137,9 +138,9 @@ void Drv8301::setPwm(float Ua, float Ub, float Uc) {
      * TODO: Confirm 3 phase
      * abc acb bac bca cab cba
      */
-    __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, duty_a * TIM_Period);
-    __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, duty_b * TIM_Period);
-    __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, duty_c * TIM_Period);
+    __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_1, duty_a * (float)TIM_PERIOD);
+    __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_2, duty_b * (float)TIM_PERIOD);
+    __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, duty_c * (float)TIM_PERIOD);
 }
 
 uint16_t Drv8301::readReg(uint8_t reg) {

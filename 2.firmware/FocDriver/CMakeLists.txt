@@ -1,7 +1,7 @@
 #此文件从模板自动生成! 请勿更改!
 set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_VERSION 1)
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.26)
 
 # specify cross-compilers and tools
 set(CMAKE_C_COMPILER arm-none-eabi-gcc)
@@ -56,8 +56,7 @@ include_directories(Core/Inc
         Drivers/CMSIS/Include
         FocDriver
         UserApp
-        )
-
+)
 add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32F405xx)
 
 file(GLOB_RECURSE SOURCES
@@ -65,7 +64,7 @@ file(GLOB_RECURSE SOURCES
         "Drivers/*.*"
         "FocDriver/*.*"
         "UserApp/*.*"
-        )
+)
 
 set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32F405RGTX_FLASH.ld)
 

@@ -12,7 +12,11 @@
 #define _round(x) ((x)>=0?(long)((x)+0.5f):(long)((x)-0.5f))
 #endif
 #define _constrain(amt, low, high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
+
+#ifndef _sqrt
 #define _sqrt(a) (_sqrtApprox(a))
+#endif
+
 #define _isset(a) ( (a) != (NOT_SET) )
 #define _UNUSED(v) (void) (v)
 
@@ -31,7 +35,7 @@
 #define _PI_6 0.52359877559f
 #define _RPM_TO_RADS 0.10471975512f
 
-#define NOT_SET (-12345.0)
+#define NOT_SET (-12345.0f)
 #define _HIGH_IMPEDANCE 0
 #define _HIGH_Z _HIGH_IMPEDANCE
 #define _ACTIVE 1

@@ -7,18 +7,17 @@
 
 class DriverBase {
 public:
-    explicit DriverBase(float _voltage_power_supply, float _voltage_limit) :
-            voltage_power_supply(_voltage_power_supply), voltage_limit(_voltage_limit) {
-
-    }
-
     float voltage_power_supply = 12.0f; //!< power supply voltage
-    float voltage_limit        = 6;            //!< limiting voltage set to the motor
+    float voltage_limit        = 12.0f; //!< limiting voltage set to the motor
     float duty_a               = 0;
     float duty_b               = 0;
     float duty_c               = 0;
 
 public:
+    explicit DriverBase(float _voltage_power_supply, float _voltage_limit) :
+            voltage_power_supply(_voltage_power_supply), voltage_limit(_voltage_limit) {}
+
+    ~DriverBase() {}
 
     virtual bool init() = 0;
     virtual void enable() = 0;

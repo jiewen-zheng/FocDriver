@@ -9,6 +9,8 @@
 #include "src/Controller/motor.h"
 
 #include "src/Drivers/Instances/driver_drv8301.h"
-#include "src/Sensors/Encoder/Instances/encoder_mt6701.h"
+#include "src/Sensors/Encoder/Instances/MT6701.h"
+#include "src/Sensors/Encoder/Instances/AS5600.h"
+#include "src/Sensors/CurrentSense/Instances/LowSideCurrentSense.h"
 
 #endif //!< FOC_DRIVER_H

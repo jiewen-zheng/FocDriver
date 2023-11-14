@@ -16,10 +16,11 @@ public:
     Stm32Gpio(GPIO_TypeDef *_port, uint32_t _pin) :
             port(_port), pin(_pin) {}
 
-    bool config(uint32_t mode, uint32_t pull, uint32_t speed = GPIO_SPEED_FREQ_LOW);
+    bool config(uint32_t mode, uint32_t pull = GPIO_NOPULL, uint32_t speed = GPIO_SPEED_FREQ_LOW);
 
     void write(bool state);
     bool read();
+    void toggle();
 
     bool subscribe(bool risingEdge, bool fallingEdge, void (*callback)(void *), void *data);
     void unsubscribe();

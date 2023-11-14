@@ -52,10 +52,10 @@ public:
         // torque control type is voltage by default
         torque_controller_mode = TorqueControlMode::VOLTAGE;
 
-        controller_mode = ControlMode::VELOCITY;
-        voltage_limit   = DEF_POWER_SUPPLY / 3; //!< 12Volt power supply voltage
-        current_limit   = 0.2f;     //!< 0.2Amps current limit by default
-        velocity_limit  = 20.0f;    //!< angle velocity limit
+        controller_mode = ControlMode::VELOCITY_OPEN_LOOP;
+        voltage_limit   = DEF_POWER_SUPPLY;     //!< 12Volt power supply voltage
+        current_limit   = DEF_CURRENT_LIMIT;    //!< 0.5Amps current limit by default
+        velocity_limit  = DEF_VELOCITY_LIMIT;   //!< angle velocity limit
 
         // sensor and motor align voltage
         voltage_sensor_align = 3.0f;    //!< voltage for sensor and motor zero alignment
@@ -80,12 +80,12 @@ public:
     // controllers and low pass filters
     LowPassFilter lpf_current_q{0.005f};
     LowPassFilter lpf_current_d{0.005f};
-    LowPassFilter lpf_velocity{0.005f}; // 0.1f
-    LowPassFilter lpf_angle{0.03f}; // 0.03f
-    PIDController pid_current_q{3.0f, 300.0f, 0.0f, 0.0f, DEF_POWER_SUPPLY};
-    PIDController pid_current_d{3.0f, 300.0f, 0.0f, 0.0f, DEF_POWER_SUPPLY};
-    PIDController pid_velocity{0.5f, 10, 0.0f, 1000.0f, DEF_POWER_SUPPLY};
-    PIDController pid_angle{20.0f, 0, 0, 0, 20.0f};
+    LowPassFilter lpf_velocity{0.05f};
+    LowPassFilter lpf_angle{0.001};
+    PIDController pid_current_q{3.0f, 300.0f, 0.0f, 0.0f, DEF_VOLTAGE_LIMIT};
+    PIDController pid_current_d{3.0f, 300.0f, 0.0f, 0.0f, DEF_VOLTAGE_LIMIT};
+    PIDController pid_velocity{0.01f, 0.2, 0.0, 0.0, DEF_VOLTAGE_LIMIT};
+    PIDController pid_angle{2.0f, 0, 0, 100, DEF_VELOCITY_LIMIT};
 
     // limiting variables
     float voltage_limit;
