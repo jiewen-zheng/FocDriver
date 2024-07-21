@@ -8,7 +8,7 @@
 class DriverBase {
 public:
     float voltage_power_supply = 12.0f; //!< power supply voltage
-    float voltage_limit        = 12.0f; //!< limiting voltage set to the motor
+    float voltage_limit        = 6.0f; //!< limiting voltage set to the motor
     float duty_a               = 0;
     float duty_b               = 0;
     float duty_c               = 0;
@@ -25,6 +25,9 @@ public:
     virtual bool isReady() = 0;
 
     virtual void setPwm(float Ua, float Ub, float Uc) = 0;
+
+private:
+
 };
 
 #endif // DRIVER_BASE_H

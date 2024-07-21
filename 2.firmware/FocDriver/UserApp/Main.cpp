@@ -61,7 +61,10 @@ void doVI(char *cmd) { commander.scalar(&motor.pid_velocity.I, cmd); }
 
 void doVD(char *cmd) { commander.scalar(&motor.pid_velocity.D, cmd); }
 
-void doVRamp(char *cmd){commander.scalar(&motor.pid_velocity.out_ramp, cmd);}
+void doVRamp(char *cmd) { commander.scalar(&motor.pid_velocity.out_ramp, cmd); }
+
+void doARamp(char *cmd) { commander.scalar(&motor.pid_angle.out_ramp, cmd); }
+
 /**
  * 两个驱动器的enGate引脚使用同一个gpio
  * 在外部统一管理
@@ -155,19 +158,21 @@ extern "C" void Main() {
 
 
     /* 若设置了象电阻，取二者中较小者 (U=I*R) */
-    motor.current_limit   = 1.5; //!< 电流限制 amp（如果设置了相电阻）,直接关系扭矩大小
+    motor.current_limit   = 2.0; //!< 电流限制 amp（如果设置了相电阻）,直接关系扭矩大小
     motor.voltage_limit   = DEF_VOLTAGE_LIMIT;  //!< [V] current = voltage / resistance, so try to be well under 1Amp
-    motor.controller_mode = Motor::VELOCITY;
+    motor.controller_mode = Motor::ANGLE;
+//    motor.velocity_limit = 5;
     motor.init();
     motor.initFOC();
 
     commander.add("T", doTarget, "target"); //!< use method: "cmd=value", example: "T=2.0"
     commander.add("LA", doLpfAngle, "angle lpf");
     commander.add("LV", doLpfVelocity, "velocity lpf");
-//
-//    commander.add("AP", doAP, "angle p");
-//    commander.add("AI", doAI, "angle i");
-//    commander.add("AD", doAD, "angle d");
+
+    commander.add("AP", doAP, "angle p");
+    commander.add("AI", doAI, "angle i");
+    commander.add("AD", doAD, "angle d");
+    commander.add("AR", doARamp, "angle ramp");
 
     commander.add("VP", doVP, "velocity p");
     commander.add("VI", doVI, "velocity i");
@@ -183,8 +188,10 @@ extern "C" void Main() {
             EnGate(false);
             drvM1.setPwm(0, 0, 0);
             DRIVE_LOG("DRV: Error!");
-            DRIVE_LOG("nFAULT Bit: %x", drvM1.readReg(Drv8301::StatusReg_1));
-            while (1);
+            while (true) {
+                DRIVE_LOG("nFAULT Bit: 0x%x", drvM1.readReg(Drv8301::StatusReg_1));
+                _delay(1000);
+            }
         }
 
         motor.move(target_velocity);
@@ -203,7 +210,7 @@ extern "C" void Main() {
 void plot_debug() {
     static int cnt = 0;
 
-    if(++cnt < 4) return;
+    if (++cnt < 4) return;
     cnt = 0;
 //    as5600.update();
 //    float data[4] = {
@@ -213,8 +220,8 @@ void plot_debug() {
 
 //    DriveLog::sendProtocol(data, 3);
 
-    DRIVE_LOG("%f,%f,%f,%f", motor.target, motor.voltage.q,
-              motor.voltage.d, motor.shaft_velocity
+    DRIVE_LOG("%f,%f,%f,%f", motor.target, motor.shaft_angle,
+              motor.set_velocity, motor.voltage.q
              );
 //    DRIVE_LOG("%.2f", 3.0);
 //    DRIVE_LOG("A :%.2f", as5600.getMechanicalAngle());

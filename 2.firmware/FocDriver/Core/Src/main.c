@@ -98,8 +98,8 @@ int main(void)
   MX_TIM1_Init();
   MX_I2C1_Init();
   MX_TIM8_Init();
-//  MX_ADC1_Init();
-//  MX_ADC2_Init();
+  MX_ADC1_Init();
+  MX_ADC2_Init();
   /* USER CODE BEGIN 2 */
   Main();
   /* USER CODE END 2 */

@@ -1,0 +1,31 @@
+Removed Pin From Net: NetName=USB_D+ Pin=R?-1
+Removed Pin From Net: NetName=USB_D+ Pin=U1-45
+Change Component Comment : Designator=C50 Old Comment=10uF New Comment=0.1uF
+Change Component Comment : Designator=R31 Old Comment=560K New Comment=10K
+Change Component Designator: OldDesignator=R? NewDesignator=R30
+Added Component: Designator=R80(R0402)
+Add component (AddParameter): Name = "Add into BOM"; Value = "yes"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Convert to PCB"; Value = "yes"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Datasheet"; Value = "https://atta.szlcsc.com/upload/public/pdf/source/20200306/C422600_1E6D84923E4A46A82E41ADD87F860B5C.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Device"; Value = "res-0402"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "JLCPCB Part Class"; Value = "»ù´¡¿â"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LCSC Part Name"; Value = "1k ¡À1%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer"; Value = "UNI-ROYAL(ºñÉù)"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer Part"; Value = "0402WGF1001TCE"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Name"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Operating Temperature Range"; Value = "-55~+155"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Overload Voltage (Max)"; Value = "50V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Power(Watts)"; Value = "1/16W"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier"; Value = "LCSC"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Footprint"; Value = "0402"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part"; Value = "C11702"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Symbol"; Value = "RES-0402"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Temperature Coefficient"; Value = "¡À100ppm/"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Tolerance"; Value = "¡À1%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Type"; Value = "ºñÄ¤µç×è"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=USB_D+ Pin=R80-1
+Added Pin To Net: NetName=USB_DP Pin=R30-1
+Added Pin To Net: NetName=USB_DP Pin=R80-2
+Added Pin To Net: NetName=USB_DP Pin=U1-45
+Added Net: Name=USB_DP
+Added Member To Class: ClassName=main Member=Component R80 22R

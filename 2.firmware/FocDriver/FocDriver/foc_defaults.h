@@ -8,6 +8,6 @@
 #define DEF_POWER_SUPPLY    12.0f   //!< default power supply voltage
 #define DEF_VOLTAGE_LIMIT   12.0f    //!< default voltage limit
 #define DEF_CURRENT_LIMIT   0.5f    //!< default current limit
-#define DEF_VELOCITY_LIMIT  20.0f   //!< default velocity limit
+#define DEF_VELOCITY_LIMIT  40.0f   //!< default velocity limit
 
 #endif //!< FOC_DEFAULTS_H

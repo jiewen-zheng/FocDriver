@@ -22,7 +22,10 @@ public:
      * @param eol - the end of line sentinel character
      * @param echo - echo last typed character (for command line feedback)
      */
-    explicit Commander(size_t _size, char midl = '=', char eol = '\n', bool echo = true);
+    explicit Commander(size_t _size, char midl = '=', char eol = '\n', bool echo = true) :
+            FifoArray<char>(_size), midl(midl), eol(eol), echo(echo) {}
+
+    ~Commander(){}
 
     void add(const char *id, CommandCallback onCommand, const char *label = nullptr);
 

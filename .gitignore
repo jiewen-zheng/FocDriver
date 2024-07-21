@@ -7,4 +7,4 @@ cmake-build-debug/
 .idea/
 
 # hard files
-History.env
+History

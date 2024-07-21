@@ -80,12 +80,12 @@ public:
     // controllers and low pass filters
     LowPassFilter lpf_current_q{0.005f};
     LowPassFilter lpf_current_d{0.005f};
-    LowPassFilter lpf_velocity{0.05f};
+    LowPassFilter lpf_velocity{0.03f};
     LowPassFilter lpf_angle{0.001};
     PIDController pid_current_q{3.0f, 300.0f, 0.0f, 0.0f, DEF_VOLTAGE_LIMIT};
     PIDController pid_current_d{3.0f, 300.0f, 0.0f, 0.0f, DEF_VOLTAGE_LIMIT};
-    PIDController pid_velocity{0.01f, 0.2, 0.0, 0.0, DEF_VOLTAGE_LIMIT};
-    PIDController pid_angle{2.0f, 0, 0, 100, DEF_VELOCITY_LIMIT};
+    PIDController pid_velocity{0.01f, 0.2, 0.0, 0, DEF_VOLTAGE_LIMIT};
+    PIDController pid_angle{25.0f, 0.1, 0, 0, DEF_VELOCITY_LIMIT};
 
     // limiting variables
     float voltage_limit;

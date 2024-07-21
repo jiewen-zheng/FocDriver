@@ -21,106 +21,46 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="91ee53ab-c486-4a36-beef-28044117edc3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/FocDriver/src/Sensors/CurrentSense/Instances/LowSideCurrentSense.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FocDriver/src/Sensors/CurrentSense/Instances/LowsideCurrentSense.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../1.hardware/Merge/__Previews/main.SchDocPreview" beforeDir="false" afterPath="$PROJECT_DIR$/../../1.hardware/Merge/__Previews/main.SchDocPreview" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../1.hardware/Merge/focDriver.PcbDoc" beforeDir="false" afterPath="$PROJECT_DIR$/../../1.hardware/Merge/focDriver.PcbDoc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.cproject" beforeDir="false" afterPath="$PROJECT_DIR$/.cproject" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/OCD_FocDrive.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/runConfigurations/OCD_FocDrive.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../1.hardware/Merge/main.SchDoc" beforeDir="false" afterPath="$PROJECT_DIR$/../../1.hardware/Merge/main.SchDoc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mxproject" beforeDir="false" afterPath="$PROJECT_DIR$/.mxproject" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Inc/main.h" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Inc/main.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Inc/stm32f4xx_hal_conf.h" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Inc/stm32f4xx_hal_conf.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Inc/stm32f4xx_it.h" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Inc/stm32f4xx_it.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Inc/tim.h" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Inc/tim.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Src/dma.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/dma.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Src/gpio.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/gpio.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Src/i2c.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/i2c.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Src/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Src/stm32f4xx_it.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/stm32f4xx_it.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Src/tim.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/tim.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FocDriver.ioc" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver.ioc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FocDriver/FocDriver.h" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/FocDriver.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FocDriver/foc_defaults.h" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/foc_defaults.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FocDriver/src/Common/DriveLog.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/src/Common/DriveLog.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FocDriver/src/Common/DriveLog.h" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/src/Common/DriveLog.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FocDriver/src/Common/math_utils.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/src/Common/math_utils.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FocDriver/src/Common/math_utils.h" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/src/Common/math_utils.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FocDriver/src/Common/time_utils.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/src/Common/time_utils.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FocDriver/src/Common/time_utils.h" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/src/Common/time_utils.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FocDriver/src/Controller/lowpass_filter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/src/Controller/lowpass_filter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FocDriver/src/Controller/lowpass_filter.h" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/src/Controller/lowpass_filter.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FocDriver/src/Controller/motor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/src/Controller/motor.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FocDriver/src/Controller/motor.h" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/src/Controller/motor.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FocDriver/src/Controller/pid.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/src/Controller/pid.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FocDriver/src/Controller/pid.h" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/src/Controller/pid.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FocDriver/src/Drivers/Instances/driver_drv8301.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/src/Drivers/Instances/driver_drv8301.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FocDriver/src/Drivers/Instances/driver_drv8301.h" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/src/Drivers/Instances/driver_drv8301.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FocDriver/src/Drivers/driver_base.h" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/src/Drivers/driver_base.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FocDriver/src/Sensors/CurrentSense/current_sense_base.h" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/src/Sensors/CurrentSense/current_sense_base.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FocDriver/src/Sensors/Encoder/Instances/encoder_mt6701.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/src/Sensors/Encoder/Instances/MT6701.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FocDriver/src/Sensors/Encoder/Instances/encoder_mt6701.h" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/src/Sensors/Encoder/Instances/MT6701.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FocDriver/src/Sensors/Encoder/encoder_base.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/src/Sensors/Encoder/encoder_base.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FocDriver/src/Sensors/Encoder/encoder_base.h" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/src/Sensors/Encoder/encoder_base.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FocDriver/thirdparty/SoftI2c.h" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/thirdparty/SoftI2c.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FocDriver/thirdparty/Stm32Gpio.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/thirdparty/Stm32Gpio.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FocDriver/thirdparty/Stm32Gpio.h" beforeDir="false" afterPath="$PROJECT_DIR$/FocDriver/thirdparty/Stm32Gpio.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MDK-ARM/FocDriver.uvprojx" beforeDir="false" afterPath="$PROJECT_DIR$/MDK-ARM/FocDriver.uvprojx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserApp/Commander/Commander.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UserApp/Commander/Commander.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserApp/Commander/Commander.h" beforeDir="false" afterPath="$PROJECT_DIR$/UserApp/Commander/Commander.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserApp/Main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/UserApp/Main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/cache-v2-36308fc3b0b515c51481.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/cmakeFiles-v1-ac9614235743e1829093.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/codemodel-v2-27135a40fe69d795529e.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/index-2023-11-02T06-16-57-0943.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/target-FocDrive.elf-Debug-afd35be57bf8b7360649.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/cache-v2-a83d9a790023f4e39f9a.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/cmakeFiles-v1-44d105009f4e679583fa.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/codemodel-v2-f2fe673dafc7d5a61c64.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/index-2023-11-12T13-15-24-0190.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/target-FocDrive.elf-Debug-f037a18c7c9cd53e4d92.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.25.2/CMakeASMCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.25.2/CMakeCCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.25.2/CMakeCXXCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.25.2/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.25.2/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.25.2/CMakeSystem.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.25.2/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.25.2/CompilerIdC/CMakeCCompilerId.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.25.2/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.25.2/CompilerIdCXX/CMakeCXXCompilerId.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeError.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/Core/Src/dma.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/Core/Src/dma.c.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/Core/Src/gpio.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/Core/Src/gpio.c.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/Core/Src/i2c.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/Core/Src/i2c.c.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.26.4/CMakeDetermineCompilerABI_C.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.26.4/CMakeDetermineCompilerABI_C.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.26.4/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.26.4/CMakeDetermineCompilerABI_CXX.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.26.4/CMakeSystem.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.26.4/CMakeSystem.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/Core/Src/main.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/Core/Src/main.c.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/Core/Src/spi.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/Core/Src/spi.c.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/Core/Src/stm32f4xx_it.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/Core/Src/stm32f4xx_it.c.obj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/Core/Src/tim.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/Core/Src/tim.c.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/Core/Src/usart.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/Core/Src/usart.c.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spi.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spi.c.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/FocDriver/src/Common/DriveLog.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/FocDriver/src/Common/DriveLog.cpp.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/FocDriver/src/Common/math_utils.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/FocDriver/src/Common/math_utils.cpp.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/FocDriver/src/Common/time_utils.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/FocDriver/src/Common/time_utils.cpp.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/FocDriver/src/Controller/lowpass_filter.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/FocDriver/src/Controller/lowpass_filter.cpp.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/FocDriver/src/Controller/motor.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/FocDriver/src/Controller/motor.cpp.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/FocDriver/src/Controller/pid.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/FocDriver/src/Controller/pid.cpp.obj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/FocDriver/src/Drivers/Instances/driver_drv8301.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/FocDriver/src/Drivers/Instances/driver_drv8301.cpp.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/FocDriver/src/Sensors/CurrentSense/current_sense_base.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/FocDriver/src/Sensors/CurrentSense/current_sense_base.cpp.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/FocDriver/src/Sensors/Encoder/Instances/encoder_mt6701.cpp.obj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/FocDriver/src/Sensors/Encoder/encoder_base.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/FocDriver/src/Sensors/Encoder/encoder_base.cpp.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/FocDriver/thirdparty/SoftI2c.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/FocDriver/thirdparty/SoftI2c.cpp.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/FocDriver/thirdparty/Stm32Gpio.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/FocDriver/thirdparty/Stm32Gpio.cpp.obj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/UserApp/Commander/Commander.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/UserApp/Commander/Commander.cpp.obj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/UserApp/Main.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/FocDrive.elf.dir/UserApp/Main.cpp.obj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/rules.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/rules.ninja" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/FocDrive.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/FocDrive.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/FocDrive.elf" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/FocDrive.elf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/FocDrive.hex" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/FocDrive.hex" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/FocDrive.map" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/FocDrive.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/FocDriver.elf" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/FocDriver.elf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/FocDriver.hex" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/FocDriver.hex" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/build.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/build.ninja" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -177,6 +117,11 @@
     </key>
   </component>
   <component name="RunManager" selected="OpenOCD 下载并运行.OCD FocDrive">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="FocDrive.elf" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="FocDrive" TARGET_NAME="FocDrive.elf" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="FocDrive" RUN_TARGET_NAME="FocDrive.elf">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -241,7 +186,16 @@
       <workItem from="1699789738706" duration="12028000" />
       <workItem from="1699848047705" duration="19474000" />
       <workItem from="1699881152352" duration="3441000" />
-      <workItem from="1699935098342" duration="9330000" />
+      <workItem from="1699935098342" duration="10278000" />
+      <workItem from="1700016976585" duration="3466000" />
+      <workItem from="1701572960595" duration="138000" />
+      <workItem from="1701772812568" duration="342000" />
+      <workItem from="1702974066950" duration="195000" />
+      <workItem from="1709885167589" duration="1965000" />
+      <workItem from="1711119961515" duration="637000" />
+      <workItem from="1714224759620" duration="4196000" />
+      <workItem from="1714810642449" duration="4000" />
+      <workItem from="1721541086160" duration="943000" />
     </task>
     <servers />
   </component>
@@ -258,9 +212,22 @@
     <isAutomaticFoundErrors value="true" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/FocDriver/src/Controller/motor.cpp</url>
+          <line>112</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="com.jetbrains.cidr.embedded.openocd.conf.type">
         <watch expression="Tf" />
+        <watch expression="Ta" />
+        <watch expression="Ua" />
+        <watch expression="Ub" />
+        <watch expression="Uc" />
       </configuration>
     </watches-manager>
   </component>

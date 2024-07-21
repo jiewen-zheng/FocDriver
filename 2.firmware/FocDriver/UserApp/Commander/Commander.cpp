@@ -7,12 +7,6 @@
 #include "Commander.h"
 #include "Commands.h"
 
-Commander::Commander(size_t _size, char midl, char eol, bool echo) :
-        FifoArray<char>(_size) {
-    this->midl = midl;
-    this->eol  = eol;
-    this->echo = echo;
-}
 
 void Commander::add(const char *id, CommandCallback onCommand, const char *label) {
     commandList[cmd_count].id        = (char *) id;
