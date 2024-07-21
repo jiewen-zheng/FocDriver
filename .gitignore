@@ -1,0 +1,10 @@
+# Build and Release Folders
+cmake-build-debug/
+#cmake-build-release/
+
+
+# Other files and folders
+.idea/
+
+# hard files
+History.env
