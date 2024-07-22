@@ -27,6 +27,7 @@ bool Drv8301::getFault() {
 bool Drv8301::config(float _gain) {
     uint8_t gain           = 3;    //!< max gian setting.
     float   gain_choices[] = {10.0f, 20.0f, 40.0f, 80.0f};
+
     _gain = (_gain > gain_choices[gain]) ? gain_choices[gain] : _gain;
     while (gain && (gain_choices[gain] > _gain)) {
         gain--;
@@ -47,7 +48,7 @@ bool Drv8301::config(float _gain) {
             | (gain << 2)   //!< gain
             | (0b00 << 0);  //!< OCTW_MODE: Report both OT and OC at nOCTW pin.
 
-    if (regFile.register_1 != newFile.register_1 || regFile.register_2 != newFile.register_2) {
+    if ((regFile.register_1 != newFile.register_1) || (regFile.register_2 != newFile.register_2)) {
         regFile = newFile;
         state   = State::Uninitialized;
         disable();
@@ -85,7 +86,7 @@ bool Drv8301::init() {
         return false;
     }
 
-    if (getFault() || getError() != NoFault) {
+    if (getFault() || (getError() != NoFault)) {
         DRIVE_LOG("DRV: Fault.");
         return false;
     }
@@ -97,7 +98,7 @@ bool Drv8301::init() {
 
 void Drv8301::enable() {
     gate_gpio.write(true);
-    _delay(1);
+    _delay(200);
 
     _enable = true;
 }
@@ -106,7 +107,7 @@ void Drv8301::disable() {
     setPwm(0, 0, 0);
 
     gate_gpio.write(false);
-    _delay(1);  //!< Full reset must be greater than 13us ~ 15us.
+    _delay(10);  //!< Full reset must be greater than 13us ~ 15us.
 
     _enable = false;
 }
@@ -130,17 +131,13 @@ void Drv8301::setPwm(float Ua, float Ub, float Uc) {
     duty_b = _constrain(Ub / voltage_power_supply, 0.0f, 1.0f);
     duty_c = _constrain(Uc / voltage_power_supply, 0.0f, 1.0f);
 
-    /** Log duty compare value */
-//    float debug[4] = {duty_a * TIM_Period, duty_b * TIM_Period, duty_c * TIM_Period, duty_a + duty_b + duty_c};
-//    DriveLog::sendProtocol(debug, 3);
-
     /**
      * TODO: Confirm 3 phase
      * abc acb bac bca cab cba
      */
-    __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_1, duty_a * (float)TIM_PERIOD);
-    __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_2, duty_b * (float)TIM_PERIOD);
-    __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, duty_c * (float)TIM_PERIOD);
+    __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_1, duty_a * (float) TIM_PERIOD);
+    __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_2, duty_b * (float) TIM_PERIOD);
+    __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, duty_c * (float) TIM_PERIOD);
 }
 
 uint16_t Drv8301::readReg(uint8_t reg) {
@@ -177,6 +174,22 @@ void Drv8301::checks() {
     if (state != Uninitialized && !fault_gpio.read()) {
         state = Uninitialized;
     }
+}
+
+void Drv8301::faultHandler() {
+    if (!getFault()) {
+        /* No Fault happen */
+        return;
+    }
+
+    /* Stop motor now */
+    disable();
+    DRIVE_LOG("DRV: Error!");
+    while (true) {
+        DRIVE_LOG("nFAULT Bit: 0x%x", readReg(Drv8301::StatusReg_1));
+        _delay(1000);
+    }
+
 }
 
 

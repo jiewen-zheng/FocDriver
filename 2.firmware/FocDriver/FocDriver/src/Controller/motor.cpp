@@ -47,12 +47,12 @@ bool Motor::init(float zero_electric_offset, EncoderBase::Direction sensor_dir) 
     DRIVE_LOG("MOT: Init...");
 
     // sanity check for the voltage limit configuration
-    if (voltage_limit > driver->voltage_power_supply) {
-        voltage_limit = driver->voltage_power_supply;
+    if (limit.voltage > driver->voltage_power_supply) {
+        limit.voltage = driver->voltage_power_supply;
     }
     // constrain voltage for sensor alignment
-    if (voltage_sensor_align > voltage_limit) {
-        voltage_sensor_align = voltage_limit;
+    if (voltage_sensor_align > limit.voltage) {
+        voltage_sensor_align = limit.voltage;
     }
 
 //    if(driver) driver->init();
@@ -60,21 +60,21 @@ bool Motor::init(float zero_electric_offset, EncoderBase::Direction sensor_dir) 
 //    if (currentSense) currentSense->init();
 
     if (!currentSense && _isset(phase_resistance)) {
-        float limit = current_limit * phase_resistance;
-        voltage_limit = (limit < voltage_limit) ? limit : voltage_limit;
+        float vol = limit.current * phase_resistance;
+        limit.voltage = (vol < limit.voltage) ? vol : limit.voltage;
     }
 
     // update the controller limits
     if (currentSense) {
-        pid_current_q.limit = voltage_limit;
-        pid_current_d.limit = voltage_limit;
+        pid_current_q.limit = limit.voltage;
+        pid_current_d.limit = limit.voltage;
     }
     if (_isset(phase_resistance) || torque_controller_mode != TorqueControlMode::VOLTAGE) {
-        pid_velocity.limit = current_limit;
+        pid_velocity.limit = limit.current;
     } else {
-        pid_velocity.limit = voltage_limit;
+        pid_velocity.limit = limit.voltage;
     }
-    pid_angle.limit = velocity_limit;
+    pid_angle.limit = limit.velocity;
 
     DRIVE_LOG("MOT: Enable driver.");
     enable();
@@ -196,9 +196,6 @@ void Motor::loopFOC() {
     switch (torque_controller_mode) {
     case TorqueControlMode::VOLTAGE:
         // no need to do anything really
-//            voltage.q = _isset(phase_resistance) ? set_current * phase_resistance : set_current;
-//            voltage.q = _constrain(voltage.q, -voltage_limit, voltage_limit);
-//         voltage.d = 0;
         break;
 
     case TorqueControlMode::DC_CURRENT:
@@ -211,7 +208,7 @@ void Motor::loopFOC() {
         // D voltage - lag compensation
         if (_isset(phase_inductance))
             voltage.d = _constrain(-set_current * shaft_velocity * pole_pairs * phase_inductance,
-                                   -voltage_limit, voltage_limit);
+                                   -limit.voltage, limit.voltage);
         else voltage.d = 0;
         break;
 
@@ -262,7 +259,7 @@ void Motor::move(float new_target) {
     if (_isset(new_target)) target = new_target;
 
     // calculate the back-emf voltage if KV_rating available U_bemf = vel*(1/KV)
-    if (_isset(kv_rating)) voltage_bemf = shaft_velocity / kv_rating / _RPM_TO_RADS;
+    if (_isset(kv_rating)) voltage_bemf = shaft_velocity / (kv_rating * _SQRT3) / _RPM_TO_RADS;
 
     if (!currentSense && _isset(phase_resistance)) {
         current.q = (voltage.q - voltage_bemf) / phase_resistance;
@@ -273,11 +270,11 @@ void Motor::move(float new_target) {
         if (torque_controller_mode == TorqueControlMode::VOLTAGE) {
             voltage.q = _isset(phase_resistance) ? _constrain(
                     target * phase_resistance + voltage_bemf,
-                    -voltage_limit, voltage_limit) : target;
+                    -limit.voltage, limit.voltage) : target;
 
             voltage.d = _isset(phase_inductance) ? _constrain(
                     -target * shaft_velocity * (float) pole_pairs * phase_inductance,
-                    -voltage_limit, voltage_limit) : 0;
+                    -limit.voltage, limit.voltage) : 0;
         } else {
             set_current = target;
         }
@@ -289,11 +286,11 @@ void Motor::move(float new_target) {
         if (torque_controller_mode == TorqueControlMode::VOLTAGE) {
             voltage.q = _isset(phase_resistance) ? _constrain(
                     set_current * phase_resistance + voltage_bemf,
-                    -voltage_limit, voltage_limit) : set_current;
+                    -limit.voltage, limit.voltage) : set_current;
 
             voltage.d = _isset(phase_inductance) ? _constrain(
                     -set_current * shaft_velocity * (float) pole_pairs * phase_inductance,
-                    -voltage_limit, voltage_limit) : 0;
+                    -limit.voltage, limit.voltage) : 0;
         }
         break;
 
@@ -305,11 +302,11 @@ void Motor::move(float new_target) {
         if (torque_controller_mode == TorqueControlMode::VOLTAGE) {
             voltage.q = _isset(phase_resistance) ? _constrain(
                     set_current * phase_resistance + voltage_bemf,
-                    -voltage_limit, voltage_limit) : set_current;
+                    -limit.voltage, limit.voltage) : set_current;
 
             voltage.d = _isset(phase_inductance) ? _constrain(
                     -set_current * shaft_velocity * (float) pole_pairs * phase_inductance,
-                    -voltage_limit, voltage_limit) : 0;
+                    -limit.voltage, limit.voltage) : 0;
         }
         break;
 
@@ -340,77 +337,22 @@ void Motor::move(float new_target) {
 * @param angle_el current electrical angle of the motor
 */
 void Motor::setPhaseVoltage(float Uq, float Ud, float angle_el) {
+    // Inverse park transform
+    Ualpha = -Uq * _sin(angle_el);
+    Ubeta  = Uq * _cos(angle_el);
 
-    float uOUT;
+    // Clarke transform
+    Ua = Ualpha;
+    Ub = -0.5f * Ualpha + _SQRT3_2 * Ubeta;
+    Uc = -0.5f * Ualpha - _SQRT3_2 * Ubeta;
 
-    // a bit of optimisation
-    if (Ud != 0) {
-        uOUT     = _sqrt(Ud * Ud + Uq * Uq) / driver->voltage_limit;
-        angle_el = _normalizeAngle(angle_el + std::atan2(Uq, Ud));
-    } else {
-        uOUT     = Uq / driver->voltage_limit;
-        // angle normalisation in between 0 and 2pi
-        // only necessary if using _sin and _cos - approximation functions
-        angle_el = _normalizeAngle(angle_el + _PI_2);
-    }
-    // find the sector we are in currently
-    int   sector = floor(angle_el / _PI_3) + 1;
-    // calculate the duty cycles
-    float T1     = _SQRT3 * _sin((float) sector * _PI_3 - angle_el) * uOUT;
-    float T2     = _SQRT3 * _sin(angle_el - ((float) sector - 1.0f) * _PI_3) * uOUT;
+    float center = driver->voltage_limit / 2;
 
-    /**
-     * TODO:
-     * flag (1) centered modulation around driver limit /2  or  (0) pulled to 0
-     */
-    float T0 = 0;
-    T0 = 1 - T1 - T2;
+    Ua += center;
+    Ub += center;
+    Uc += center;
 
-
-    // calculate the duty cycles(times)
-    float Ta, Tb, Tc;
-    switch (sector) {
-    case 1:
-        Ta = T1 + T2 + T0 / 2;
-        Tb = T2 + T0 / 2;
-        Tc = T0 / 2;
-        break;
-    case 2:
-        Ta = T1 + T0 / 2;
-        Tb = T1 + T2 + T0 / 2;
-        Tc = T0 / 2;
-        break;
-    case 3:
-        Ta = T0 / 2;
-        Tb = T1 + T2 + T0 / 2;
-        Tc = T2 + T0 / 2;
-        break;
-    case 4:
-        Ta = T0 / 2;
-        Tb = T1 + T0 / 2;
-        Tc = T1 + T2 + T0 / 2;
-        break;
-    case 5:
-        Ta = T2 + T0 / 2;
-        Tb = T0 / 2;
-        Tc = T1 + T2 + T0 / 2;
-        break;
-    case 6:
-        Ta = T1 + T2 + T0 / 2;
-        Tb = T0 / 2;
-        Tc = T1 + T0 / 2;
-        break;
-    default:
-        // possible error state
-        Ta = 0;
-        Tb = 0;
-        Tc = 0;
-    }
-
-    // calculate the phase voltages and center
-    Ua = Ta * driver->voltage_limit;
-    Ub = Tb * driver->voltage_limit;
-    Uc = Tc * driver->voltage_limit;
+//    DRIVE_LOG("%f,%f,%f", Ua, Ub, Uc);
 
     driver->setPwm(Ua, Ub, Uc);
 }
@@ -494,8 +436,9 @@ int Motor::alignSensor() {
         setPhaseVoltage(0, 0, 0);
         /** TODO: Power off the drive if necessary */
         _delay(200);
-    } else
+    } else {
         DRIVE_LOG("MOT: Skip offset calib.");
+    }
 
     return exit_flag;
 }
@@ -549,11 +492,12 @@ float Motor::velocityOpenLoop(float target_velocity) {
     shaft_velocity = target_velocity;
 
     // use voltage limit or current limit
-    float Uq = _isset(phase_resistance) ?
-               _constrain(current_limit * phase_resistance + std::fabs(voltage_bemf),
-                          -voltage_limit, voltage_limit) : voltage_limit;
+    float Uq = limit.voltage;
     if (_isset(phase_resistance)) {
-        current.q = (Uq - std::fabs(voltage_limit)) / phase_resistance;
+        Uq = _constrain(limit.current * phase_resistance + fabs(voltage_bemf),
+                        -limit.voltage, limit.voltage);
+
+        current.q = (Uq - fabs(voltage_bemf)) / phase_resistance;
     }
 
     setPhaseVoltage(Uq, 0, _electricalAngle(shaft_angle, pole_pairs));
@@ -582,18 +526,18 @@ float Motor::angleOpenLoop(float target_angle) {
      *                         where small position changes are no longer captured by the precision of floats
      *                          when the total position is large.
      */
-    if (std::abs(target_angle - shaft_angle) > std::abs(velocity_limit * Ts)) {
-        shaft_angle += _sign(target_angle - shaft_angle) * std::abs(velocity_limit) * Ts;
-        shaft_velocity = velocity_limit;
+    if (std::abs(target_angle - shaft_angle) > std::abs(limit.velocity * Ts)) {
+        shaft_angle += _sign(target_angle - shaft_angle) * std::abs(limit.velocity) * Ts;
+        shaft_velocity = limit.velocity;
     } else {
         shaft_angle    = target_angle;
         shaft_velocity = 0;
     }
 
     // use voltage limit or current limit
-    float Uq = voltage_limit;
+    float Uq = limit.voltage;
     Uq = _isset(phase_resistance) ?
-         _constrain(current_limit * phase_resistance, -voltage_limit, voltage_limit) : Uq;
+         _constrain(limit.current * phase_resistance, -limit.voltage, limit.voltage) : Uq;
 
     setPhaseVoltage(Uq, 0, _normalizeAngle(shaft_angle) * (float) pole_pairs);
     open_loop_timestamp = time;

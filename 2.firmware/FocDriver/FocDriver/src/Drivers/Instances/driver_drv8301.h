@@ -47,7 +47,6 @@ public:
         Ready,
     } state = Uninitialized;
 
-public:
     struct RegisterFile {
         uint16_t register_1;
         uint16_t register_2;
@@ -63,6 +62,7 @@ public:
     bool config(float _gain);
     FaultType getError();
     bool getFault();
+    void faultHandler();
     void checks();
 
     bool init() override;

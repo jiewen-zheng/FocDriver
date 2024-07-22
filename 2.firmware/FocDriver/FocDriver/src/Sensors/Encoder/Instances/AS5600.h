@@ -10,8 +10,8 @@
 
 class AS5600 : public EncoderBase {
 public:
-#define AS5600_DEVICE_ADDR ((uint8_t)0x36)
-#define RESOLUTION  4096    //!< 12 bit Resolution
+#define AS5600_DEVICE_ADDR  ((uint8_t)0x36)
+#define RESOLUTION_RATIO    4096    //!< 12 bit Resolution ratio
 
     enum RegMap : uint8_t {
         RawAngleReg1 = 0x0C,
@@ -19,8 +19,6 @@ public:
         AngleReg1    = 0x0E,
         AngleReg2    = 0x0F,
     };
-public:
-    bool test_flag = 0;
 
 public:
     AS5600() {

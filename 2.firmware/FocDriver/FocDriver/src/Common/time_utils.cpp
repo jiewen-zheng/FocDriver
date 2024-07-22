@@ -5,7 +5,7 @@
 #include "time_utils.h"
 #include "tim.h"
 
-#define TIM_TIME_BASE TIM14
+#define TIM_TIME_BASE       TIM14
 
 unsigned int _micros() {
     uint32_t ms, cycle_cnt;

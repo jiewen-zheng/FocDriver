@@ -1,3 +1,0 @@
-D:/items/jb/FocDriver/2.firmware/FocDriver/cmake-build-debug/CMakeFiles/FocDrive.elf.dir
-D:/items/jb/FocDriver/2.firmware/FocDriver/cmake-build-debug/CMakeFiles/edit_cache.dir
-D:/items/jb/FocDriver/2.firmware/FocDriver/cmake-build-debug/CMakeFiles/rebuild_cache.dir

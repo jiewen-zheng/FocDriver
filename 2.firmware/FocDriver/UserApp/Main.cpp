@@ -11,6 +11,8 @@
 #include "FocDriver.h"
 #include "Commander/Commander.h"
 
+#include "soft_timer/soft_timer.h"
+
 Motor     motor(7, 2.3);
 Commander commander(256, '=', '!');
 //MT6701    mt6701{
@@ -25,19 +27,22 @@ LowSideCurrentSense lcs(0.0002f, 10, false); // No A phase amp
 Drv8301 drvM0{
         DEF_POWER_SUPPLY, DEF_VOLTAGE_LIMIT,
         {M0_CS_GPIO_Port, M0_CS_Pin},
-        {},
+        {EN_GATE_GPIO_Port, EN_GATE_Pin},
         {FAULT_GPIO_Port, FAULT_Pin}
 };
 Drv8301 drvM1{
         DEF_POWER_SUPPLY, DEF_VOLTAGE_LIMIT,
         {M1_CS_GPIO_Port, M1_CS_Pin},
-        {},
+        {EN_GATE_GPIO_Port, EN_GATE_Pin},
         {FAULT_GPIO_Port, FAULT_Pin}
 };
 
 //target variable
 float    target_velocity = 0;
 uint16_t adcData[2]      = {5, 10};
+
+void plot_msg(soft_timer_t *timer);
+void serial_handler(soft_timer_t *timer);
 
 void receivedCommand(unsigned char *data, unsigned int size) {
     commander.write((char *) data, size);
@@ -64,6 +69,22 @@ void doVD(char *cmd) { commander.scalar(&motor.pid_velocity.D, cmd); }
 void doVRamp(char *cmd) { commander.scalar(&motor.pid_velocity.out_ramp, cmd); }
 
 void doARamp(char *cmd) { commander.scalar(&motor.pid_angle.out_ramp, cmd); }
+
+void commander_init() {
+    commander.add("T", doTarget, "target"); //!< use method: "cmd=value", example: "T=2.0"
+    commander.add("LA", doLpfAngle, "angle lpf");
+    commander.add("LV", doLpfVelocity, "velocity lpf");
+
+    commander.add("AP", doAP, "angle p");
+    commander.add("AI", doAI, "angle i");
+    commander.add("AD", doAD, "angle d");
+    commander.add("AR", doARamp, "angle ramp");
+
+    commander.add("VP", doVP, "velocity p");
+    commander.add("VI", doVI, "velocity i");
+    commander.add("VD", doVD, "velocity d");
+    commander.add("VR", doVRamp, "vel ramp");
+}
 
 /**
  * 两个驱动器的enGate引脚使用同一个gpio
@@ -116,8 +137,6 @@ float readADC(LowSideCurrentSense::LowSidePhase phase) {
     }
 }
 
-void plot_debug();
-
 extern "C" void Main() {
 //    testPin.config(GPIO_MODE_OUTPUT_PP);
 
@@ -130,10 +149,6 @@ extern "C" void Main() {
 //    __HAL_TIM_ENABLE_IT(&htim8, TIM_IT_UPDATE);
 //    HAL_ADC_Start_DMA(&hadc2, (uint32_t *) adcData, 2);
 
-    EnGate(false);
-    _delay(10);
-    EnGate(true);
-    _delay(500);
 
     drvM1.config(10);
     while (!drvM1.init()) {
@@ -156,75 +171,39 @@ extern "C" void Main() {
     motor.linkEncoder(&as5600);
     motor.linkDriver(&drvM1);
 
-
-    /* 若设置了象电阻，取二者中较小者 (U=I*R) */
-    motor.current_limit   = 2.0; //!< 电流限制 amp（如果设置了相电阻）,直接关系扭矩大小
-    motor.voltage_limit   = DEF_VOLTAGE_LIMIT;  //!< [V] current = voltage / resistance, so try to be well under 1Amp
+//    motor.limit.current = 0.5f;
+    motor.limit.voltage   = 6;
     motor.controller_mode = Motor::ANGLE;
 //    motor.velocity_limit = 5;
     motor.init();
-    motor.initFOC();
+    motor.initFOC(EncoderBase::CW);
 
-    commander.add("T", doTarget, "target"); //!< use method: "cmd=value", example: "T=2.0"
-    commander.add("LA", doLpfAngle, "angle lpf");
-    commander.add("LV", doLpfVelocity, "velocity lpf");
+    commander_init();
 
-    commander.add("AP", doAP, "angle p");
-    commander.add("AI", doAI, "angle i");
-    commander.add("AD", doAD, "angle d");
-    commander.add("AR", doARamp, "angle ramp");
-
-    commander.add("VP", doVP, "velocity p");
-    commander.add("VI", doVI, "velocity i");
-    commander.add("VD", doVD, "velocity d");
-    commander.add("VR", doVRamp, "vel ramp");
-
-//    drvM1.disable();
-//as5600.test_flag = true;
+    soft_timer_init(HAL_GetTick);
+    soft_timer_create(10, plot_msg, NULL);
+    soft_timer_create(200, serial_handler, NULL);
 
     for (;;) {
         /** Drv8301 error check */
-        if (drvM1.getFault()) {
-            EnGate(false);
-            drvM1.setPwm(0, 0, 0);
-            DRIVE_LOG("DRV: Error!");
-            while (true) {
-                DRIVE_LOG("nFAULT Bit: 0x%x", drvM1.readReg(Drv8301::StatusReg_1));
-                _delay(1000);
-            }
-        }
+        drvM1.faultHandler();
 
-        motor.move(target_velocity);
         motor.loopFOC();
+        motor.move(target_velocity);
 
-        commander.run();
-//        velocity_debug();
-//        DRIVE_LOG("lfp :%.2f", motor.lpf_angle.Tf);
-        _delayUs(500);
-        plot_debug();
-
-//        _delay(100);
+        soft_timer_handler();
     }
 }
 
-void plot_debug() {
-    static int cnt = 0;
-
-    if (++cnt < 4) return;
-    cnt = 0;
-//    as5600.update();
-//    float data[4] = {
-//            (float) motor.shaft_angle, motor.shaft_velocity,
-//            (float) as5600.getRawCount()
-//    };
-
-//    DriveLog::sendProtocol(data, 3);
-
-    DRIVE_LOG("%f,%f,%f,%f", motor.target, motor.shaft_angle,
-              motor.set_velocity, motor.voltage.q
+void plot_msg(soft_timer_t *timer) {
+    DRIVE_LOG("%f,%f,%f,%f",
+              motor.target,
+              motor.shaft_velocity,
+              motor.shaft_angle,
+              motor.voltage.q
              );
-//    DRIVE_LOG("%.2f", 3.0);
-//    DRIVE_LOG("A :%.2f", as5600.getMechanicalAngle());
-//    DRIVE_LOG("F :%.2f", as5600.getFullAngle());
-//    DRIVE_LOG("V :%.2f", as5600.getVelocity());
+}
+
+void serial_handler(soft_timer_t *timer) {
+    commander.run();
 }

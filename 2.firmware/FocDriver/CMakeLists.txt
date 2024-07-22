@@ -49,15 +49,24 @@ else ()
     add_compile_options(-Og -g)
 endif ()
 
-include_directories(Core/Inc Drivers/STM32F4xx_HAL_Driver/Inc
-        Drivers/STM32F4xx_HAL_Driver/Inc/Legacy Drivers/CMSIS/Device/ST/STM32F4xx/Include
-        Drivers/CMSIS/Include
-        UserApp FocDriver
-)
 
 add_definitions(-DDEBUG -DUSE_HAL_DRIVER -DSTM32F405xx)
 
+include_directories(Core/Inc Drivers/STM32F4xx_HAL_Driver/Inc
+        Drivers/STM32F4xx_HAL_Driver/Inc/Legacy Drivers/CMSIS/Device/ST/STM32F4xx/Include
+        Drivers/CMSIS/Include
+        FocDriver
+        UserApp
+)
+
+file(GLOB_RECURSE REMOVE_SOURCES
+        "UserApp/soft_timer/examples/*.*"
+        "UserApp/MLog/example/*.*"
+)
+
 file(GLOB_RECURSE SOURCES "Core/*.*" "Drivers/*.*" "UserApp/*.*" "FocDriver/*.*")
+
+list(REMOVE_ITEM SOURCES ${REMOVE_SOURCES})
 
 set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32F405RGTX_FLASH.ld)
 

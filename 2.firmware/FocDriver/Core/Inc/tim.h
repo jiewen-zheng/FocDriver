@@ -37,7 +37,7 @@ extern TIM_HandleTypeDef htim1;
 extern TIM_HandleTypeDef htim8;
 
 /* USER CODE BEGIN Private defines */
-#define TIM_PERIOD  (TIM_CLK_MHZ * 1000000 / TIM_PWM_FREQ / 2)
+#define TIM_PERIOD  ((TIM_CLK_MHZ * 1000000) / TIM_PWM_FREQ)
 /* USER CODE END Private defines */
 
 void MX_TIM1_Init(void);

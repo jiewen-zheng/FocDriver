@@ -13,12 +13,12 @@ void AS5600::init() {
 
 float AS5600::getAngle() {
     uint16_t angle = getRawCount();
-    return ((float) angle / (float) RESOLUTION) * _2PI;
+    return ((float) angle / (float) RESOLUTION_RATIO) * _2PI;
 }
 
 int AS5600::getRawCount() {
     uint8_t data[2];
-    if (test_flag) return _PI;
+
 
     readReg(RawAngleReg1, data, 2);
     uint16_t raw_count = ((uint16_t) data[0] << 8) | (uint16_t) data[1];

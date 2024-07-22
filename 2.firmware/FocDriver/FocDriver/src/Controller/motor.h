@@ -42,6 +42,18 @@ public:
     };
 
 public:
+    // configuration structures
+    TorqueControlMode torque_controller_mode;
+    ControlMode       controller_mode; //!< parameter determining the control loop to be used
+
+    // limiting variables
+    struct {
+        float voltage;
+        float current;
+        float velocity;
+    }                 limit;
+
+public:
     /**
     * Default constructor - setting all variabels to default values
     */
@@ -51,11 +63,11 @@ public:
 
         // torque control type is voltage by default
         torque_controller_mode = TorqueControlMode::VOLTAGE;
+        controller_mode        = ControlMode::VELOCITY_OPEN_LOOP;
 
-        controller_mode = ControlMode::VELOCITY_OPEN_LOOP;
-        voltage_limit   = DEF_POWER_SUPPLY;     //!< 12Volt power supply voltage
-        current_limit   = DEF_CURRENT_LIMIT;    //!< 0.5Amps current limit by default
-        velocity_limit  = DEF_VELOCITY_LIMIT;   //!< angle velocity limit
+        limit.voltage  = DEF_VOLTAGE_LIMIT;     //!< 12Volt power supply voltage
+        limit.current  = DEF_CURRENT_LIMIT;    //!< 0.5Amps current limit by default
+        limit.velocity = DEF_VELOCITY_LIMIT;   //!< angle velocity limit
 
         // sensor and motor align voltage
         voltage_sensor_align = 3.0f;    //!< voltage for sensor and motor zero alignment
@@ -73,24 +85,15 @@ public:
         current.d = 0;
     }
 
-    // configuration structures
-    TorqueControlMode torque_controller_mode;
-    ControlMode       controller_mode; //!< parameter determining the control loop to be used
-
     // controllers and low pass filters
     LowPassFilter lpf_current_q{0.005f};
     LowPassFilter lpf_current_d{0.005f};
     LowPassFilter lpf_velocity{0.03f};
-    LowPassFilter lpf_angle{0.001};
+    LowPassFilter lpf_angle{0.05f};
     PIDController pid_current_q{3.0f, 300.0f, 0.0f, 0.0f, DEF_VOLTAGE_LIMIT};
     PIDController pid_current_d{3.0f, 300.0f, 0.0f, 0.0f, DEF_VOLTAGE_LIMIT};
-    PIDController pid_velocity{0.01f, 0.2, 0.0, 0, DEF_VOLTAGE_LIMIT};
-    PIDController pid_angle{25.0f, 0.1, 0, 0, DEF_VELOCITY_LIMIT};
-
-    // limiting variables
-    float voltage_limit;
-    float current_limit;
-    float velocity_limit;
+    PIDController pid_velocity{0.2f, 0.2, 0, 1000, DEF_VOLTAGE_LIMIT};
+    PIDController pid_angle{5.0f, 0.01, 0, 0, DEF_VELOCITY_LIMIT};
 
     // sensor related variables
     float sensor_offset       = 0.0f;     //!< user defined sensor zero offset
@@ -98,16 +101,17 @@ public:
     float voltage_sensor_align;     //!< sensor and motor align voltage parameter
 
     // state variables
-    float       target;           //!< current target value - depends of the controller
-    float       shaft_angle;      //!< current motor angle
-    float       shaft_velocity;   //!< current motor velocity
-    float       electrical_angle; //!< current electrical angle
-    float       set_current;      //!< target curren ( q current )
-    float       set_velocity;     //!< target velocity
-    float       set_angle;        //!< target angle
-    DQVoltage_t voltage;    //!< current d and q voltage set to the motor
-    DQCurrent_t current;    //!< current d and q current measured
-    float       voltage_bemf;     //!< estimated backemf voltage (if provided KV constant)
+    float       target;     //!< current target value - depends of the controller
+    float       shaft_angle;        //!< current motor angle
+    float       shaft_velocity;     //!< current motor velocity
+    float       electrical_angle;   //!< current electrical angle
+    float       set_current;        //!< target curren ( q current )
+    float       set_velocity;       //!< target velocity
+    float       set_angle;          //!< target angle
+    DQVoltage_t voltage;            //!< current d and q voltage set to the motor
+    DQCurrent_t current;            //!< current d and q current measured
+    float       voltage_bemf;       //!< estimated backemf voltage (if provided KV constant)
+    float       Ualpha, Ubeta;      //!< Phase voltages U alpha and U beta used for inverse Park and Clarke transform
 
     // other device object
     DriverBase       *driver       = nullptr;
@@ -130,7 +134,8 @@ public:
      * Function initializing FOC algorithm
      * and aligning sensor's and motors' zero position
      */
-    virtual int initFOC(EncoderBase::Direction sensor_dir = EncoderBase::Direction::UNKNOWN, float zero_electric_offset = NOT_SET);
+    virtual int
+    initFOC(EncoderBase::Direction sensor_dir = EncoderBase::Direction::UNKNOWN, float zero_electric_offset = NOT_SET);
 
     /** Function linking a motor and other device */
     void linkDriver(DriverBase *_driver);
